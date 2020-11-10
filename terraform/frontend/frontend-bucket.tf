@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "bucket" {
-  bucket = "${local.verbose_service_name}-bucket-${local.resource_name_postfix}"
+  bucket = "${local.verbose_service_name}-bucket-${local.stack_name_postfix}"
   acl    = "private"
 
   website {

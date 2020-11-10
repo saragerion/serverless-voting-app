@@ -20,7 +20,7 @@ function main {
 
     source "$ROOT_DIR/scripts/steps/terraform.sh"
 
-    for TF_FOLDER in frontend backend
+    for TF_FOLDER in backend frontend
     do
         cd "$ROOT_DIR/terraform/${TF_FOLDER}"
         terraformSteps "$@"

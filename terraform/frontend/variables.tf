@@ -16,5 +16,20 @@ variable "github_repo" {
 
 variable "owner" {
   type        = string
-  description = "The name of the owner of this website."
+  description = "The name of the owner of this service."
+}
+
+variable "backend_region" {
+  type        = string
+  description = "The region of the terraform state"
+}
+
+variable "backend_bucket" {
+  type        = string
+  description = "The bucket name of the terraform state"
+}
+
+variable "backend_key" {
+  type        = string
+  description = "The bucket key of the terraform state"
 }

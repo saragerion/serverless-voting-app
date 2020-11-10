@@ -5,8 +5,8 @@
 *.tfstate
 *.tfstate.*
 
-# Terraform s3 backend _config files
-terraform/_config/*
+# Terraform s3 backend config files
+scripts/config/*
 
 # Crash log files
 crash.log

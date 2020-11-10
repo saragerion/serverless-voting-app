@@ -1,4 +1,4 @@
-resource "random_string" "resource_name_postfix" {
+resource "random_string" "stack_name_postfix" {
   length  = 16
   special = false
   upper   = false

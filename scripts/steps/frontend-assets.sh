@@ -21,9 +21,9 @@ function checkCodeChanges() {
 function buildAssets() {
     rm -R "dist"
     mkdir "dist"
-    cp "src/website/index.html" "dist/index.html"
+    cp "src/frontend/index.html" "dist/index.html"
     mkdir -p "dist/static/$TIMESTAMP"
-    cp -r "src/website/static/_local_/." "dist/static/$TIMESTAMP"
+    cp -r "src/frontend/static/_local_/." "dist/static/$TIMESTAMP"
     sed -i "" "s/_local_/$TIMESTAMP/g" "dist/index.html"
 }
 

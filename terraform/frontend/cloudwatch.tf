@@ -1,5 +1,5 @@
 resource "aws_cloudwatch_dashboard" "dashboard" {
-  dashboard_name = "${local.verbose_service_name}-dashboard-${local.resource_name_postfix}"
+  dashboard_name = "${local.verbose_service_name}-dashboard-${local.stack_name_postfix}"
 
   dashboard_body = <<EOF
 {

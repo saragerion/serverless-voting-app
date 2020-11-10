@@ -1,16 +1,10 @@
 locals {
-  service_name          = element(split("/", var.github_repo), 1)
-  verbose_service_name  = "${local.service_name}-${var.env}-${var.aws_region}"
-  resource_name_postfix = random_string.resource_name_postfix.result
-  aws_account_id        = data.aws_caller_identity.current.account_id
+  aws_account_id = data.aws_caller_identity.current.account_id
 
-  tags = {
-    Service      = local.service_name
-    Environment  = var.env
-    ManagedBy    = "Terraform"
-    GithubRepo   = var.github_repo
-    Owner        = var.owner
-    AwsRegion    = var.aws_region
-    AwsAccountId = local.aws_account_id
-  }
+  service_name         = module.identifiers.service_name
+  verbose_service_name = module.identifiers.verbose_service_name
+  stack_name_postfix   = module.identifiers.stack_name_postfix
+  tags                 = module.identifiers.tags
+
+  component_name = "api"
 }

@@ -5,7 +5,7 @@ resource "random_string" "stack_name_postfix" {
 
   keepers = {
     env            = var.env
-    aws_account_id = local.aws_account_id
+    aws_account_id = var.aws_account_id
     aws_region     = var.aws_region
   }
 }
