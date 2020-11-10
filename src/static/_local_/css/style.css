@@ -1,0 +1,38 @@
+.wrapper {
+  width: 100vw;
+  height: 100vh;
+  background: #eee;
+  display: -webkit-box;
+  display: flex;
+  box-sizing: border-box;
+}
+
+.container {
+  display: block;
+  width: 80%;
+  margin: 0 auto;
+  height: auto;
+}
+
+.house {
+  cursor: pointer;
+  font-size: 30px;
+  font-family: 'Oak', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 700;
+}
+.house .bg-fill {
+  opacity: 0;
+  -webkit-transition: opacity 0.3s ease-in;
+  transition: opacity 0.3s ease-in;
+}
+.house text {
+  fill: #333;
+  -webkit-transition: fill 0.3s ease-in;
+  transition: fill 0.3s ease-in;
+}
+.house:hover .bg-fill, .house.active .bg-fill {
+  opacity: 1;
+}
+.house:hover text, .house.active text {
+  fill: #333;
+}
