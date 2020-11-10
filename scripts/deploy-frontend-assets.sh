@@ -18,7 +18,7 @@ function main {
     introComments "apply"
 
     source "$ROOT_DIR/scripts/steps/terraform.sh"
-    cd "$ROOT_DIR/terraform/service"
+    cd "$ROOT_DIR/terraform/frontend"
     getOutputs
 
     source "$ROOT_DIR/scripts/steps/frontend-assets.sh"

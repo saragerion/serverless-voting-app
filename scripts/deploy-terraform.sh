@@ -20,8 +20,11 @@ function main {
 
     source "$ROOT_DIR/scripts/steps/terraform.sh"
 
-    cd "$ROOT_DIR/terraform/service"
-    terraformSteps "$@"
+    for TF_FOLDER in frontend backend
+    do
+        cd "$ROOT_DIR/terraform/${TF_FOLDER}"
+        terraformSteps "$@"
+    done
 
     if [ ! "$1" = "apply" ]; then
         echo "Above you can see the planned changes. To apply those changes run './scripts/deploy-terraform.sh apply' "

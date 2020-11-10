@@ -5,8 +5,8 @@
 *.tfstate
 *.tfstate.*
 
-# Terraform s3 backend config files
-terraform/config/*
+# Terraform s3 backend _config files
+terraform/_config/*
 
 # Crash log files
 crash.log
@@ -96,3 +96,6 @@ dist
 
 # Logs
 logs
+
+# Zip files
+*.zip

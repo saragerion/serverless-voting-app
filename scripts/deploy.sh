@@ -19,8 +19,11 @@ function main {
     setDeploymentConfig
     introComments "$@"
 
-    cd "$ROOT_DIR/terraform/service"
-    terraformSteps "$@"
+    for TF_FOLDER in frontend backend
+    do
+        cd "$ROOT_DIR/terraform/${TF_FOLDER}"
+        terraformSteps "$@"
+    done
 
     if [ "$1" = "apply" ]; then
         source "$ROOT_DIR/scripts/steps/frontend-assets.sh"

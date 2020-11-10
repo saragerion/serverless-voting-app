@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function checkBackendConfigFile {
-    BACKEND_CONFIG_FILE="${ROOT_DIR}/terraform/config/${AWS_ACCOUNT_ID}/backend.hcl"
+    BACKEND_CONFIG_FILE="${ROOT_DIR}/terraform/_config/${AWS_ACCOUNT_ID}/backend.hcl"
     if [ ! -f "$BACKEND_CONFIG_FILE" ]; then
         echo -e "\n====================="
         echo "ERROR! File $BACKEND_CONFIG_FILE not found, please create a backend file with the following content:"
@@ -36,8 +36,8 @@ function printInputVariables() {
 
 function terraformInit() {
     checkBackendConfigFile
-    BACKEND_BUCKET_KEY="${GITHUB_REPO}/${ENV}/${AWS_REGION}/terraform.tfstate"
-    export TF_DATA_DIR="./.terraform/$AWS_ACCOUNT_ID-$ENV-$AWS_REGION"
+    BACKEND_BUCKET_KEY="$GITHUB_REPO/$ENV/$AWS_REGION/$TF_FOLDER/terraform.tfstate"
+    export TF_DATA_DIR="./.terraform/$AWS_ACCOUNT_ID-$ENV-$AWS_REGION-$TF_FOLDER"
     terraform init \
         -input=false \
         -backend-config="key=$BACKEND_BUCKET_KEY" \

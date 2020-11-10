@@ -15,10 +15,14 @@ function main {
 
     source "$ROOT_DIR/scripts/steps/common.sh"
     source "$ROOT_DIR/scripts/steps/terraform.sh"
-    cd "$ROOT_DIR/terraform/service"
 
-    setDeploymentConfig
-    terraformDestroyInit
+    for TF_FOLDER in frontend backend
+    do
+        cd "$ROOT_DIR/terraform/${TF_FOLDER}"
+
+        setDeploymentConfig
+        terraformDestroyInit
+    done
 
     source "$ROOT_DIR/scripts/steps/frontend-assets.sh"
     emptyBucket
