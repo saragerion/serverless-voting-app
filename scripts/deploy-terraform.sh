@@ -11,17 +11,20 @@
 # - Deploy all the changes            :   ./scripts/deploy-terraform.sh apply
 #
 
-function main {
+function main() {
     ROOT_DIR=$(pwd)
     source "$ROOT_DIR/scripts/steps/common.sh"
 
     setDeploymentConfig
     introComments "$@"
 
+    npm install '--production'
+    cp "node_modules" "dist/backend/node_modules"
+    npm run build
+
     source "$ROOT_DIR/scripts/steps/terraform.sh"
 
-    for TF_FOLDER in backend frontend
-    do
+    for TF_FOLDER in backend frontend; do
         cd "$ROOT_DIR/terraform/${TF_FOLDER}"
         terraformSteps "$@"
     done
@@ -29,6 +32,8 @@ function main {
     if [ ! "$1" = "apply" ]; then
         echo "Above you can see the planned changes. To apply those changes run './scripts/deploy-terraform.sh apply' "
     fi
+
+    npm install --production=false
 }
 
 main "${*}"

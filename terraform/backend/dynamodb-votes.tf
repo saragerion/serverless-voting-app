@@ -1,18 +1,18 @@
 resource "aws_dynamodb_table" "votes" {
-    name           = "${local.verbose_service_name}-votes-${local.stack_name_postfix}"
-    billing_mode   = "PAY_PER_REQUEST"
-    hash_key       = "userId"
-    range_key      = "replayId"
+  name         = local.dynamodb_votes_resource_name
+  billing_mode = "PAY_PER_REQUEST"
+  hash_key     = "userId"
+  range_key    = "videoId"
 
-    attribute {
-        name = "userId"
-        type = "S"
-    }
+  attribute {
+    name = "userId"
+    type = "S"
+  }
 
-    attribute {
-        name = "replayId"
-        type = "S"
-    }
+  attribute {
+    name = "videoId"
+    type = "S"
+  }
 
-    tags = local.tags
+  tags = local.tags
 }

@@ -1,5 +1,5 @@
 resource "random_string" "stack_name_postfix" {
-  length  = 16
+  length  = var.postfix_length
   special = false
   upper   = false
 
@@ -7,5 +7,6 @@ resource "random_string" "stack_name_postfix" {
     env            = var.env
     aws_account_id = var.aws_account_id
     aws_region     = var.aws_region
+    length         = var.postfix_length
   }
 }

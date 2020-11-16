@@ -10,8 +10,8 @@ function introComments() {
 }
 
 function getUserInput() {
-    read -r -p "Enter the name of the current environment [dev]: " ENV
-    ENV=${ENV:-dev}
+    read -r -p "Enter the name of the current environment [test]: " ENV
+    ENV=${ENV:-test}
     read -r -p "Enter the name of the AWS region where you want to deploy [eu-central-1]: " AWS_REGION
     AWS_REGION=${AWS_REGION:-"eu-central-1"}
     read -r -p "Enter the name of the current repository, *including* the owner [saragerion/serverless-voting-app]: " GITHUB_REPO

@@ -29,3 +29,9 @@ variable "component_name" {
   description = "The name of the current service component, for example: api"
   default     = "default"
 }
+
+variable "postfix_length" {
+  type        = number
+  description = "The length of the postfix string"
+  default     = 12
+}

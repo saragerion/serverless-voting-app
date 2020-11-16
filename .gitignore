@@ -94,8 +94,5 @@ dist
 # Frontend source code checksum
 .src-checksum*
 
-# Logs
-logs
-
 # Zip files
 *.zip

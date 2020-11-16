@@ -19,6 +19,12 @@ function main {
     setDeploymentConfig
     introComments "$@"
 
+    npm install "--production=false"
+    npm run build
+    npm ci "--production"
+    cd dist/backend
+    zip -r lambda_functions.zip .  ../../package.json ../../node_modules
+
     for TF_FOLDER in backend frontend
     do
         cd "$ROOT_DIR/terraform/${TF_FOLDER}"
