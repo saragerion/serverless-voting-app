@@ -19,7 +19,6 @@ function main {
     setDeploymentConfig
     introComments "$@"
 
-    npm install "--production=false"
     npm run build
     npm ci "--production"
     cd dist/backend
@@ -38,6 +37,8 @@ function main {
     else
         echo "Above you can see the planned changes. To apply those changes run './scripts/deploy.sh apply' "
     fi
+
+    npm install "--production=false"
 }
 
 main "${*}"

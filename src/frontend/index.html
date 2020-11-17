@@ -1,35 +1,49 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset=utf-8/>
-        <title>videojs-contrib-hls embed</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Voting app</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="/static/_local_/css/style.css">
+    <link rel="icon" type="image/png" href="static/_local_/images/favicon.png"/>
+    <!--
+    Uses the latest versions of video.js and videojs-http-streaming.
+    To use specific versions, please change the URLs to the form:
+    <link href="https://unpkg.com/video.js@6.7.1/dist/video-js.css" rel="stylesheet">
+    <script src="https://unpkg.com/video.js@6.7.1/dist/video.js"></script>
+    <script src="https://unpkg.com/@videojs/http-streaming@0.9.0/dist/videojs-http-streaming.js"></script>
+    -->
+    <link href="https://unpkg.com/video.js/dist/video-js.css" rel="stylesheet">
+</head>
+<body>
+<h1 id="title">Voting app</h1>
 
-        <!--
+<a id="facebook_button" href="https://dev-7499450.okta.com/oauth2/v1/authorize?idp=0oan7lwpgeGLRauzv5d5&client_id=0oan3zrraSw254i2B5d5&response_type=code&response_mode=fragment&scope=openid&redirect_uri=
+https://d1nmd3ycyktnbq.cloudfront.net/implicit/callback&state=WM6D&nonce=serverlessApp">Sign in with Facebook</a>
 
-        Uses the latest versions of video.js and videojs-http-streaming.
+<!-- 3  -->
+<div id="loader">
+    <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+         x="0px" y="0px"
+         width="100px" height="100px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+  <path fill="#000"
+        d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z">
+    <animateTransform attributeType="xml"
+                      attributeName="transform"
+                      type="rotate"
+                      from="0 25 25"
+                      to="360 25 25"
+                      dur="0.6s"
+                      repeatCount="indefinite"/>
+    </path>
+  </svg>
+</div>
 
-        To use specific versions, please change the URLs to the form:
 
-        <link href="https://unpkg.com/video.js@6.7.1/dist/video-js.css" rel="stylesheet">
-        <script src="https://unpkg.com/video.js@6.7.1/dist/video.js"></script>
-        <script src="https://unpkg.com/@videojs/http-streaming@0.9.0/dist/videojs-http-streaming.js"></script>
-
-        -->
-
-        <link href="https://unpkg.com/video.js/dist/video-js.css" rel="stylesheet">
-    </head>
-    <body>
-        <h1>Video.js Example Embed</h1>
-
-        <video-js id="my_video_1" class="vjs-default-skin" controls preload="auto" width="640" height="268">
-            <source src="https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8" type="application/x-mpegURL">
-        </video-js>
-
-        <script src="https://unpkg.com/video.js/dist/video.js"></script>
-        <script src="https://unpkg.com/@videojs/http-streaming/dist/videojs-http-streaming.js"></script>
-
-        <script>
-            var player = videojs('my_video_1');
-        </script>
-    </body>
+<script src="https://unpkg.com/video.js/dist/video.js"></script>
+<script src="https://unpkg.com/@videojs/http-streaming/dist/videojs-http-streaming.js"></script>
+<script src="/static/_local_/js/script.js"></script>
+</body>
 </html>

@@ -8,8 +8,9 @@ resource "aws_lambda_function" "get_videos" {
 
   environment {
     variables = {
-      TABLE_NAME_VIDEOS           = local.dynamodb_videos_resource_name,
-      DISPLAYED_VIDEOS_INDEX_NAME = local.dynamodb_diplayed_videos_index_name
+      TABLE_NAME_VIDEOS                   = local.dynamodb_videos_resource_name,
+      DISPLAYED_VIDEOS_INDEX_NAME         = local.dynamodb_diplayed_videos_index_name,
+      AWS_NODEJS_CONNECTION_REUSE_ENABLED = "1"
     }
   }
 
@@ -59,7 +60,7 @@ data "aws_iam_policy_document" "query_dynamodb" {
     ]
 
     resources = [
-      "arn:aws:dynamodb:${var.aws_region}:${local.aws_account_id}:table/${local.dynamodb_videos_resource_name}",
+      "arn:aws:dynamodb:${var.aws_region}:${local.aws_account_id}:table/${local.dynamodb_videos_resource_name}/index/${local.dynamodb_diplayed_videos_index_name}",
     ]
 
     effect = "Allow"

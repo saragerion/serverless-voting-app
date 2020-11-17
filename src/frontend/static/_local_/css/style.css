@@ -1,38 +1,53 @@
-.wrapper {
-  width: 100vw;
-  height: 100vh;
-  background: #eee;
-  display: -webkit-box;
-  display: flex;
-  box-sizing: border-box;
+body {
+    padding: 1em;
+    background: #2B3134;
+    color: #777;
+    text-align: center;
+    font-family: "Gill sans", sans-serif;
+    width: 80%;
+    margin: 0 auto;
 }
 
-.container {
-  display: block;
-  width: 80%;
-  margin: 0 auto;
-  height: auto;
+h1, h2, h3 {
+    font-weight: lighter;
+    margin: 1em 0 0.5em;
 }
 
-.house {
-  cursor: pointer;
-  font-size: 30px;
-  font-family: 'Oak', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-weight: 700;
+h1 {
+    margin: 1em 0;
+    border-bottom: 1px dashed;
+    padding-bottom: 1em;
 }
-.house .bg-fill {
-  opacity: 0;
-  -webkit-transition: opacity 0.3s ease-in;
-  transition: opacity 0.3s ease-in;
+
+p {
+    font-style: italic;
 }
-.house text {
-  fill: #333;
-  -webkit-transition: fill 0.3s ease-in;
-  transition: fill 0.3s ease-in;
+
+h3 {
+    margin-bottom: 40px;;
 }
-.house:hover .bg-fill, .house.active .bg-fill {
-  opacity: 1;
+
+#loader {
+    margin: 0 0 2em;
+    height: 100px;
+    width: 20%;
+    text-align: center;
+    padding: 1em;
+    margin: 0 auto 1em;
+    display: inline-block;
+    vertical-align: top;
 }
-.house:hover text, .house.active text {
-  fill: #333;
+
+.video-js {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 25px;
+}
+
+/*
+  Set the color of the icon
+*/
+svg path,
+svg rect {
+    fill: #FF6700;
 }
