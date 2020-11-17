@@ -19,6 +19,17 @@ h1 {
     padding-bottom: 1em;
 }
 
+a {
+    background: #fff;
+    height: 42px;
+    display: inline-grid;
+    width: 35%;
+    line-height: 30px;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    padding: 5px;
+}
+
 p {
     font-style: italic;
 }
