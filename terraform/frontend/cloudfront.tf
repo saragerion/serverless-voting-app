@@ -89,6 +89,7 @@ resource "aws_cloudfront_distribution" "bucket_distribution" {
 
     forwarded_values {
       query_string = false
+      headers      = ["Authorization"]
 
       cookies {
         forward = "none"

@@ -5,8 +5,9 @@ resource "aws_lambda_function" "get_videos" {
   handler          = "get-videos.handler"
   runtime          = "nodejs12.x"
   source_code_hash = filebase64sha256("./../../dist/backend/lambda_functions.zip")
+    memory_size = 256
 
-  environment {
+    environment {
     variables = {
       TABLE_NAME_VIDEOS                   = local.dynamodb_videos_resource_name,
       DISPLAYED_VIDEOS_INDEX_NAME         = local.dynamodb_diplayed_videos_index_name,
@@ -155,7 +156,10 @@ resource "aws_apigatewayv2_route" "get_videos" {
   api_id    = aws_apigatewayv2_api.api.id
   route_key = "GET /videos"
 
-  target = "integrations/${aws_apigatewayv2_integration.get_videos.id}"
+  target               = "integrations/${aws_apigatewayv2_integration.get_videos.id}"
+//  authorizer_id        = aws_apigatewayv2_authorizer.api.id
+//  authorization_type   = "JWT"
+//  authorization_scopes = ["openid"]
 
   lifecycle {
     create_before_destroy = true

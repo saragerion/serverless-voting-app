@@ -20,6 +20,18 @@ resource "aws_apigatewayv2_deployment" "deployment" {
   ]
 }
 
+resource "aws_apigatewayv2_authorizer" "api" {
+  api_id           = aws_apigatewayv2_api.api.id
+  authorizer_type  = "JWT"
+  identity_sources = ["$request.header.Authorization"]
+  name             = local.apigw_resource_name
+
+  jwt_configuration {
+    audience = ["api://default"]
+    issuer   = "https://dev-7499450.okta.com/oauth2/default"
+  }
+}
+
 
 resource "aws_apigatewayv2_api" "api" {
   name          = local.apigw_resource_name

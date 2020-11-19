@@ -5,6 +5,7 @@ resource "aws_lambda_function" "post_votes" {
   handler          = "post-votes.handler"
   runtime          = "nodejs12.x"
   source_code_hash = filebase64sha256("./../../dist/backend/lambda_functions.zip")
+    memory_size = 256
 
   environment {
     variables = {
@@ -60,7 +61,7 @@ data "aws_iam_policy_document" "write_dynamodb" {
     ]
 
     resources = [
-      "arn:aws:dynamodb:${var.aws_region}:${local.aws_account_id}:table/${local.lambda_post_votes_resource_name}",
+      "arn:aws:dynamodb:${var.aws_region}:${local.aws_account_id}:table/${local.dynamodb_votes_resource_name}",
     ]
 
     effect = "Allow"
