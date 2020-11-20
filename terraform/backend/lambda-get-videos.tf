@@ -157,9 +157,9 @@ resource "aws_apigatewayv2_route" "get_videos" {
   route_key = "GET /videos"
 
   target               = "integrations/${aws_apigatewayv2_integration.get_videos.id}"
-//  authorizer_id        = aws_apigatewayv2_authorizer.api.id
-//  authorization_type   = "JWT"
-//  authorization_scopes = ["openid"]
+  authorizer_id        = aws_apigatewayv2_authorizer.api.id
+  authorization_type   = "JWT"
+  authorization_scopes = ["openid"]
 
   lifecycle {
     create_before_destroy = true

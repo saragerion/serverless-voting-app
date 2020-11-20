@@ -154,6 +154,7 @@ resource "aws_apigatewayv2_integration" "post_votes" {
   integration_uri        = aws_lambda_function.post_votes.invoke_arn
   payload_format_version = "2.0"
 
+
   lifecycle {
     create_before_destroy = true
   }
@@ -166,9 +167,12 @@ resource "aws_apigatewayv2_integration" "post_votes" {
 
 resource "aws_apigatewayv2_route" "post_votes" {
   api_id    = aws_apigatewayv2_api.api.id
+    
   route_key = "POST /votes"
-
   target = "integrations/${aws_apigatewayv2_integration.post_votes.id}"
+    authorizer_id        = aws_apigatewayv2_authorizer.api.id
+    authorization_type   = "JWT"
+    authorization_scopes = ["openid"]
 
   lifecycle {
     create_before_destroy = true
