@@ -5,7 +5,7 @@ resource "aws_lambda_function" "post_votes" {
   handler          = "post-votes.handler"
   runtime          = "nodejs12.x"
   source_code_hash = filebase64sha256("./../../dist/backend/lambda_functions.zip")
-    memory_size = 256
+  memory_size      = 256
 
   environment {
     variables = {
@@ -166,13 +166,13 @@ resource "aws_apigatewayv2_integration" "post_votes" {
 }
 
 resource "aws_apigatewayv2_route" "post_votes" {
-  api_id    = aws_apigatewayv2_api.api.id
-    
-  route_key = "POST /votes"
-  target = "integrations/${aws_apigatewayv2_integration.post_votes.id}"
-    authorizer_id        = aws_apigatewayv2_authorizer.api.id
-    authorization_type   = "JWT"
-    authorization_scopes = ["openid"]
+  api_id = aws_apigatewayv2_api.api.id
+
+  route_key            = "POST /votes"
+  target               = "integrations/${aws_apigatewayv2_integration.post_votes.id}"
+  authorizer_id        = aws_apigatewayv2_authorizer.api.id
+  authorization_type   = "JWT"
+  authorization_scopes = ["openid"]
 
   lifecycle {
     create_before_destroy = true

@@ -5,9 +5,9 @@ resource "aws_lambda_function" "get_videos" {
   handler          = "get-videos.handler"
   runtime          = "nodejs12.x"
   source_code_hash = filebase64sha256("./../../dist/backend/lambda_functions.zip")
-    memory_size = 256
+  memory_size      = 256
 
-    environment {
+  environment {
     variables = {
       TABLE_NAME_VIDEOS                   = local.dynamodb_videos_resource_name,
       DISPLAYED_VIDEOS_INDEX_NAME         = local.dynamodb_diplayed_videos_index_name,

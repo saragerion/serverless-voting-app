@@ -5,24 +5,18 @@ module.exports = {
     "ecmaVersion": 2020
   },
   plugins: [
-    "@typescript-eslint",
-    "jest"
+    "@typescript-eslint"
   ],
   extends: [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:jest/style",
+    "plugin:@typescript-eslint/recommended",
     "plugin:eslint-comments/recommended",
     "plugin:import/warnings",
     "plugin:import/errors",
     "plugin:import/typescript"
   ],
   "rules": {
-    "jest/no-disabled-tests": "warn",
-    "jest/no-focused-tests": "error",
-    "jest/no-identical-title": "error",
-    "jest/prefer-to-have-length": "warn",
-    "jest/valid-expect": "error",
     "eslint-comments/no-unused-disable": "error",
     "no-console": 0,
     "semi": [
@@ -86,8 +80,6 @@ module.exports = {
     "@typescript-eslint/explicit-member-accessibility": "error"
   },
   "env": {
-    "es2020": true,
-    "jest": true,
-    "jest/globals": true
+    "es2020": true
   }
 };

@@ -5,6 +5,9 @@
 *.tfstate
 *.tfstate.*
 
+# terraform lock files
+* .lock.hcl
+
 # Terraform s3 backend config files
 scripts/config/*
 
