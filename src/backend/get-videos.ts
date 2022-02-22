@@ -1,13 +1,18 @@
 import type { APIGatewayRequestAuthorizerEvent } from 'aws-lambda';
-import { dynamodbClientV3 } from './common/dynamodb-client';
+import { dynamodbClientV3, logger } from './common';
 import { Video } from './common/types/Video';
 import { QueryCommand } from '@aws-sdk/client-dynamodb';
+import middy from '@middy/core';
+import { injectLambdaContext } from '@aws-lambda-powertools/logger';
+
+const dynamoDBTableVideos = process.env.TABLE_NAME_VIDEOS || '';
+const dynamoDBIndex = process.env.DISPLAYED_VIDEOS_INDEX_NAME || '';
 
 const getVideos = async (): Promise<Array<Video>> => {
 
   const command = new QueryCommand({
-    TableName: process.env.TABLE_NAME_VIDEOS || '',
-    IndexName: process.env.DISPLAYED_VIDEOS_INDEX_NAME || '',
+    TableName: dynamoDBTableVideos,
+    IndexName: dynamoDBIndex,
     KeyConditionExpression: '#isDisplayed = :isDisplayed',
     ExpressionAttributeNames: { '#isDisplayed': 'isDisplayed' },
     ExpressionAttributeValues: { ':isDisplayed': { S:'true' } },
@@ -16,7 +21,9 @@ const getVideos = async (): Promise<Array<Video>> => {
 
   try {
     const results = await dynamodbClientV3.send(command);
-    console.log('RESULTS', results);
+    logger.debug(`[GET videos] Query results from DynamoDB table ${dynamoDBTableVideos}`, {
+      details: { results }
+    });
 
     return results.Items ? results.Items.map((video): Video => ({
       id: video.id.S || '',
@@ -26,23 +33,30 @@ const getVideos = async (): Promise<Array<Video>> => {
       upvotes: video.upvotes.N || '',
       downvotes: video.downvotes.N || '',
     })) : [];
-  } catch (err) {
-    console.error('ERROR', err);
+  } catch (error) {
+    logger.error(`[GET videos] Error occurred while querying DynamoDB table ${dynamoDBTableVideos}`, error);
 
     return [];
 
   }
 };
 
-const handler = async (event: APIGatewayRequestAuthorizerEvent): Promise<string> => {
-  console.log(event);
-  console.log(JSON.stringify(event.requestContext, null, 3));
+const lambdaHandler = async (event: APIGatewayRequestAuthorizerEvent): Promise<string> => {
+
+  logger.debug('[GET videos] Lambda invoked', {
+    details: { event }
+  });
+
   const videos = await getVideos();
-  console.log('VIDEOS', videos);
-  console.log('JSON',JSON.stringify({ data: videos }));
+
+  logger.debug('[GET videos] Videos array', {
+    details: { videos }
+  });
 
   return JSON.stringify({ data: videos });
 };
+
+const handler = middy(lambdaHandler).use(injectLambdaContext(logger));
 
 export {
   handler

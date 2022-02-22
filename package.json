@@ -35,7 +35,8 @@
         "@aws-lambda-powertools/logger": "^0.6.0",
         "@aws-lambda-powertools/metrics": "^0.6.0",
         "@aws-lambda-powertools/tracer": "^0.6.0",
-        "@aws-sdk/client-dynamodb": "^3.52.0"
+        "@aws-sdk/client-dynamodb": "^3.52.0",
+        "@middy/core": "^2.5.7"
     },
     "engines": {
         "node": ">=10"
