@@ -3,10 +3,10 @@ resource "aws_apigatewayv2_deployment" "deployment" {
   description = local.apigw_resource_name
 
   triggers = {
-    redeployment = sha1(join(",", list(
+    redeployment = sha1(join(",", tolist([
       jsonencode(aws_apigatewayv2_integration.get_videos),
       jsonencode(aws_apigatewayv2_route.get_videos),
-    )))
+    ])))
   }
 
   lifecycle {
@@ -48,6 +48,11 @@ resource "aws_apigatewayv2_stage" "stage" {
   api_id        = aws_apigatewayv2_api.api.id
   name          = local.api_uri_prefix
   deployment_id = aws_apigatewayv2_deployment.deployment.id
+
+  default_route_settings {
+      throttling_burst_limit = 5000
+      throttling_rate_limit = 10000
+  }
 
   lifecycle {
     create_before_destroy = true

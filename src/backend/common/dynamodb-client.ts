@@ -1,10 +1,10 @@
-import Dynamodb from "aws-sdk/clients/dynamodb";
+import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 
-const dynamodbClient = new Dynamodb({
-  apiVersion: "2012-08-10",
-  region: process.env.AWS_REGION || "eu-central-1"
+const dynamodbClientV3 = new DynamoDBClient({
+  apiVersion: '2012-08-10',
+  region: process.env.AWS_REGION || 'eu-central-1'
 });
 
 export {
-  dynamodbClient
+  dynamodbClientV3
 };

@@ -57,7 +57,7 @@ function terraformInit() {
     export TF_VAR_github_repo=$GITHUB_REPO
     export TF_VAR_owner=$OWNER
 
-    terraform init -reconfigure \
+    terraform init -upgrade -reconfigure \
         -backend-config="key=$BACKEND_KEY" \
         -backend-config="region=$TF_VAR_backend_region" \
         -backend-config="bucket=$TF_VAR_backend_bucket" \
@@ -102,6 +102,12 @@ function terraformSteps() {
         terraformApply
         getOutputs
     fi
+}
+
+function getOutputsForFrontend() {
+    terraformInit
+    printConfig
+    getOutputs
 }
 
 function terraformDestroyInit() {

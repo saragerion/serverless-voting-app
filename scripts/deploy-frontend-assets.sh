@@ -18,8 +18,10 @@ function main {
     introComments "apply"
 
     source "$ROOT_DIR/scripts/steps/terraform.sh"
-    cd "$ROOT_DIR/terraform/frontend"
-    getOutputs
+
+    TF_FOLDER=frontend
+    cd "$ROOT_DIR/terraform/$TF_FOLDER"
+    getOutputsForFrontend
 
     source "$ROOT_DIR/scripts/steps/frontend-assets.sh"
     cd "$ROOT_DIR" || exit
