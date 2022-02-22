@@ -1,10 +1,14 @@
 import type { APIGatewayEvent } from 'aws-lambda';
-import { dynamodbClientV3, logger } from './common';
 import { Decision, User } from './common/types';
 import { PutItemCommand, UpdateItemCommand } from '@aws-sdk/client-dynamodb';
+import { dynamodbClientV3, logger, metrics, tracer, createTracerSubsegment } from './common';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const got = require('got').default;
+
 import middy from '@middy/core';
 import { injectLambdaContext } from '@aws-lambda-powertools/logger';
-import got from 'got';
+import { logMetrics, MetricUnits } from '@aws-lambda-powertools/metrics';
+import { captureLambdaHandler } from '@aws-lambda-powertools/tracer';
 
 const dynamoDBTableVotes = process.env.TABLE_NAME_VOTES || '';
 const dynamoDBTableVideos = process.env.TABLE_NAME_VIDEOS || '';
@@ -12,14 +16,26 @@ const dynamoDBTableVideos = process.env.TABLE_NAME_VIDEOS || '';
 // This business logic is simplified for the sake of a demo
 // The goal is to show an example of querying an external dependency
 const getUserUUID = async (): Promise<string> => {
-  // Example of API call to external dependency (user microservice)
-  const response: User = await got('https://6214c09489fad53b1f1db75c.mockapi.io/api/users/1', {
-    timeout: {
-      request: 3000
-    }
-  }).json();
 
-  return response.UUID;
+  const { subsegment, parentSubsegment } = createTracerSubsegment('getUserUUID');
+  try {
+    const response: User = await got('https://6214c09489fad53b1f1db75c.mockapi.io/api/users/1', {
+      timeout: {
+        request: 3000
+      }
+    }).json();
+
+    tracer.addResponseAsMetadata(response, 'getUserUUID');
+    subsegment.close();
+    tracer.setSegment(parentSubsegment);
+
+    return response.UUID;
+  } catch (error) {
+    logger.error(`[POST votes] Error occurred while calling the external user service`, error);
+    tracer.addErrorAsMetadata(error as Error);
+
+    throw new Error('Unexpected error while while calling the external user service');
+  }
 };
 
 const storeUserVote = (userId: string, videoId: string, decision: string): Promise<unknown> => {
@@ -72,6 +88,9 @@ const lambdaHandler = async (event: APIGatewayEvent): Promise<string> => {
     incrementVideoVote(videoId, decision)
   ]);
 
+  metrics.addMetric(decision, MetricUnits.Count, 1);
+  tracer.putAnnotation('decision', decision);
+
   logger.debug(`[POST votes] User vote stored in DynamoDB tables ${dynamoDBTableVideos} and ${dynamoDBTableVideos}`, {
     details: { userId, videoId, decision }
   });
@@ -79,7 +98,10 @@ const lambdaHandler = async (event: APIGatewayEvent): Promise<string> => {
   return JSON.stringify({ success: true });
 };
 
-const handler = middy(lambdaHandler).use(injectLambdaContext(logger));
+const handler = middy(lambdaHandler)
+  .use(captureLambdaHandler(tracer))
+  .use(logMetrics(metrics, { captureColdStartMetric: true }))
+  .use(injectLambdaContext(logger));
 
 export {
   handler

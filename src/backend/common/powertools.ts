@@ -1,7 +1,6 @@
 import { Logger } from '@aws-lambda-powertools/logger';
 import { Metrics } from '@aws-lambda-powertools/metrics';
 import { Tracer } from '@aws-lambda-powertools/tracer';
-import { OctankLogFormatter } from '.';
 
 const awsLambdaPowertoolsVersion = '0.6.0';
 
@@ -11,7 +10,6 @@ const defaultValues = {
 };
 
 const logger = new Logger({
-  logFormatter: new OctankLogFormatter(),
   persistentLogAttributes: {
     ...defaultValues,
     logger: {
@@ -27,8 +25,21 @@ const metrics = new Metrics({
 
 const tracer = new Tracer();
 
+const createTracerSubsegment = (segmentId: string) => {
+  const parentSubsegment = tracer.getSegment(); // This is the subsegment currently active
+  // Create subsegment for the function & set it as active
+  const subsegment = parentSubsegment.addNewSubsegment(`### ${segmentId}`);
+  tracer.setSegment(subsegment);
+
+  return {
+    parentSubsegment,
+    subsegment
+  };
+};
+
 export {
   logger,
   metrics,
-  tracer
+  tracer,
+  createTracerSubsegment
 };

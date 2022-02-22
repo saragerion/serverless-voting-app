@@ -10,6 +10,7 @@ resource "aws_lambda_function" "post_votes" {
   environment {
     variables = {
       ENVIRONMENT                   = var.env
+      AWS_ACCOUNT_ID                = local.aws_account_id
       TABLE_NAME_VIDEOS             = local.dynamodb_videos_resource_name,
       TABLE_NAME_VOTES              = local.dynamodb_votes_resource_name,
       POWERTOOLS_SERVICE_NAME       = local.powertools_service_name

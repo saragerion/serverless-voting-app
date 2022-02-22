@@ -1,7 +1,8 @@
 body {
     padding: 1em;
-    background: #2B3134;
-    color: #fff;
+    background-color: #8EC5FC;
+    background-image: linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%);
+    color: #000;
     text-align: center;
     font-family: 'Lato', sans-serif;
     width: 80%;
