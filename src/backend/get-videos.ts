@@ -9,12 +9,8 @@ const getVideos = async (): Promise<Array<Video>> => {
     TableName: process.env.TABLE_NAME_VIDEOS || '',
     IndexName: process.env.DISPLAYED_VIDEOS_INDEX_NAME || '',
     KeyConditionExpression: '#isDisplayed = :isDisplayed',
-    ExpressionAttributeNames: {
-      '#isDisplayed': 'isDisplayed'
-    },
-    ExpressionAttributeValues: {
-      ':isDisplayed': { S:'true' }
-    },
+    ExpressionAttributeNames: { '#isDisplayed': 'isDisplayed' },
+    ExpressionAttributeValues: { ':isDisplayed': { S:'true' } },
     ScanIndexForward: true
   });
 

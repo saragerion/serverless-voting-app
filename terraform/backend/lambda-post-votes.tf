@@ -3,15 +3,19 @@ resource "aws_lambda_function" "post_votes" {
   function_name    = local.lambda_post_votes_resource_name
   role             = aws_iam_role.post_votes.arn
   handler          = "post-votes.handler"
-  runtime          = "nodejs12.x"
+  runtime          = "nodejs14.x"
   source_code_hash = filebase64sha256("./../../dist/backend/lambda_functions.zip")
   memory_size      = 256
 
   environment {
     variables = {
-      TABLE_NAME_VIDEOS                   = local.dynamodb_videos_resource_name,
-      TABLE_NAME_VOTES                    = local.dynamodb_votes_resource_name,
-      AWS_NODEJS_CONNECTION_REUSE_ENABLED = "1"
+      TABLE_NAME_VIDEOS             = local.dynamodb_videos_resource_name,
+      TABLE_NAME_VOTES              = local.dynamodb_votes_resource_name,
+      POWERTOOLS_SERVICE_NAME       = local.powertools_service_name
+      POWERTOOLS_LOGGER_LOG_LEVEL   = local.powertools_logger_log_level
+      POWERTOOLS_LOGGER_SAMPLE_RATE = local.powertools_logger_sample_rate
+      POWERTOOLS_METRICS_NAMESPACE  = local.powertools_metrics_namespace
+
     }
   }
 
@@ -45,7 +49,7 @@ resource "aws_iam_role_policy_attachment" "write_dynamodb" {
 resource "aws_iam_policy" "write_dynamodb" {
   name        = "${local.verbose_service_name}-write-dynamodb-${local.stack_name_postfix}"
   path        = "/"
-  description = "IAM policy to query dynamodb from Lambda ${local.verbose_service_name}"
+  description = "IAM policy to query DynamoDB from Lambda ${local.verbose_service_name}"
 
   lifecycle {
     create_before_destroy = true

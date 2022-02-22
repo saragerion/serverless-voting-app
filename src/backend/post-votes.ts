@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-unresolved
 import type { APIGatewayEvent } from 'aws-lambda';
 import { createHmac } from 'crypto';
 import { dynamodbClientV3 } from './common/dynamodb-client';

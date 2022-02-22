@@ -16,4 +16,12 @@ locals {
   apigw_resource_name             = "${local.verbose_service_name}-api-${local.stack_name_postfix}"
   dynamodb_videos_resource_name   = "${local.verbose_service_name}-videos-${local.stack_name_postfix}"
   dynamodb_votes_resource_name    = "${local.verbose_service_name}-votes-${local.stack_name_postfix}"
+
+  is_current_env_prod = (var.env == "prod") ? true : false
+
+  powertools_service_name = local.service_name
+  powertools_logger_log_level = local.is_current_env_prod ? "WARN" : "DEBUG"
+  powertools_metrics_namespace = "octank" // Dummy company name
+  powertools_logger_sample_rate = local.is_current_env_prod ? "0.1" : "1"
+
 }
