@@ -9,12 +9,13 @@ resource "aws_lambda_function" "get_videos" {
 
   environment {
     variables = {
+      ENVIRONMENT                   = var.env
       TABLE_NAME_VIDEOS             = local.dynamodb_videos_resource_name,
       DISPLAYED_VIDEOS_INDEX_NAME   = local.dynamodb_diplayed_videos_index_name,
       POWERTOOLS_SERVICE_NAME       = local.powertools_service_name
       POWERTOOLS_LOGGER_LOG_LEVEL   = local.powertools_logger_log_level
       POWERTOOLS_LOGGER_SAMPLE_RATE = local.powertools_logger_sample_rate
-      POWERTOOLS_METRICS_NAMESPACE  = local.powertools_metrics_namespace
+      POWERTOOLS_METRICS_NAMESPACE  = local.powertools_metrics_namespace,
     }
   }
 
