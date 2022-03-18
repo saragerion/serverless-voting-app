@@ -51,17 +51,22 @@ function terraformInit() {
     BACKEND_KEY="$GITHUB_REPO/$ENV/$AWS_REGION/$TF_FOLDER/terraform.tfstate"
 
     export TF_DATA_DIR="./.terraform/$AWS_ACCOUNT_ID-$ENV-$AWS_REGION-$TF_FOLDER"
-    export TF_VAR_backend_key=$PREVIOUS_BACKEND_KEY
     export TF_VAR_env=$ENV
     export TF_VAR_aws_region=$AWS_REGION
+    export TF_VAR_backend_key=$PREVIOUS_BACKEND_KEY
     export TF_VAR_github_repo=$GITHUB_REPO
     export TF_VAR_owner=$OWNER
 
-    terraform init -upgrade -reconfigure \
-        -backend-config="key=$BACKEND_KEY" \
-        -backend-config="region=$TF_VAR_backend_region" \
-        -backend-config="bucket=$TF_VAR_backend_bucket" \
-        -backend-config="dynamodb_table=$TF_VAR_backend_table"
+    if [ -z "$TF_VAR_backend_bucket" ]
+    then
+        terraform init -upgrade -reconfigure \
+            -backend-config="key=$BACKEND_KEY" \
+            -backend-config="region=$TF_VAR_backend_region" \
+            -backend-config="bucket=$TF_VAR_backend_bucket" \
+            -backend-config="dynamodb_table=$TF_VAR_backend_table"
+    else
+        terraform init -upgrade -reconfigure
+    fi
 }
 
 function terraformValidate() {

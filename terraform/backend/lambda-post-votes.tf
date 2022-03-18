@@ -13,6 +13,7 @@ resource "aws_lambda_function" "post_votes" {
       AWS_ACCOUNT_ID                = local.aws_account_id
       TABLE_NAME_VIDEOS             = local.dynamodb_videos_resource_name,
       TABLE_NAME_VOTES              = local.dynamodb_votes_resource_name,
+      // Powertools environment variables
       POWERTOOLS_SERVICE_NAME       = local.powertools_service_name
       POWERTOOLS_LOGGER_LOG_LEVEL   = local.powertools_logger_log_level
       POWERTOOLS_LOGGER_SAMPLE_RATE = local.powertools_logger_sample_rate
