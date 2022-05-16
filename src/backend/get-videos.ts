@@ -36,7 +36,7 @@ const getVideos = async (): Promise<Array<Video>> => {
       downvotes: video.downvotes.N || '',
     })) : [];
   } catch (error) {
-    logger.error(`[GET videos] Error occurred while querying DynamoDB table ${dynamoDBTableVideos}`, error);
+    logger.error(`[GET videos] Error occurred while querying DynamoDB table ${dynamoDBTableVideos}`, error as Error);
 
     return [];
 

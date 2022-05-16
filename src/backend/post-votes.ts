@@ -1,7 +1,7 @@
 import type { APIGatewayEvent } from 'aws-lambda';
 import { Decision, User } from './common/types';
 import { PutItemCommand, UpdateItemCommand } from '@aws-sdk/client-dynamodb';
-import { dynamodbClientV3, logger, metrics, tracer, createTracerSubsegment } from './common';
+import { dynamodbClientV3, logger, metrics, tracer } from './common';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const got = require('got').default;
 
@@ -17,7 +17,6 @@ const dynamoDBTableVideos = process.env.TABLE_NAME_VIDEOS || '';
 // The goal is to show an example of querying an external dependency
 const getUserUUID = async (): Promise<string> => {
 
-  const { subsegment, parentSubsegment } = createTracerSubsegment('getUserUUID');
   try {
     const response: User = await got('https://6214c09489fad53b1f1db75c.mockapi.io/api/users/1', {
       timeout: {
@@ -25,15 +24,8 @@ const getUserUUID = async (): Promise<string> => {
       }
     }).json();
 
-    tracer.addResponseAsMetadata(response, 'getUserUUID');
-    subsegment.close();
-    tracer.setSegment(parentSubsegment);
-
     return response.UUID;
   } catch (error) {
-    logger.error(`[POST votes] Error occurred while calling the external user service`, error);
-    tracer.addErrorAsMetadata(error as Error);
-
     throw new Error('Unexpected error while while calling the external user service');
   }
 };
@@ -49,7 +41,7 @@ const storeUserVote = (userId: string, videoId: string, decision: string): Promi
       },
     }));
   } catch (error) {
-    logger.error(`[POST votes] Error occurred while writing in DynamoDB table ${dynamoDBTableVotes}`, error);
+    logger.error(`[POST votes] Error occurred while writing in DynamoDB table ${dynamoDBTableVotes}`, error as Error);
     throw new Error(`Unable to write new user vote item in DynamoDB table ${dynamoDBTableVotes}`);
   }
 };

@@ -25,21 +25,8 @@ const metrics = new Metrics({
 
 const tracer = new Tracer();
 
-const createTracerSubsegment = (segmentId: string) => {
-  const parentSubsegment = tracer.getSegment(); // This is the subsegment currently active
-  // Create subsegment for the function & set it as active
-  const subsegment = parentSubsegment.addNewSubsegment(`### ${segmentId}`);
-  tracer.setSegment(subsegment);
-
-  return {
-    parentSubsegment,
-    subsegment
-  };
-};
-
 export {
   logger,
   metrics,
-  tracer,
-  createTracerSubsegment
+  tracer
 };
