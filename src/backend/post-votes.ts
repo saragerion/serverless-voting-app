@@ -59,7 +59,7 @@ const incrementVideoVote = (videoId: string, decision: Decision): Promise<unknow
       ReturnValues: 'ALL_NEW'
     }));
   } catch (error) {
-    logger.error(`[POST votes] Error occurred while increment a votes value in DynamoDB table ${dynamoDBTableVideos}`, error);
+    logger.error(`[POST votes] Error occurred while increment a votes value in DynamoDB table ${dynamoDBTableVideos}`, error as Error);
     throw new Error(`Unable to increment votes in DynamoDB table ${dynamoDBTableVideos}`);
   }
 };
