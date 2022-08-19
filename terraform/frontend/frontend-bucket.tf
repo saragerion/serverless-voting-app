@@ -2,10 +2,6 @@ resource "aws_s3_bucket" "bucket" {
   bucket = "${local.verbose_service_name}-bucket-${local.stack_name_postfix}"
   acl    = "private"
 
-  website {
-    index_document = "index.html"
-  }
-
   server_side_encryption_configuration {
     rule {
       apply_server_side_encryption_by_default {
@@ -15,6 +11,14 @@ resource "aws_s3_bucket" "bucket" {
   }
 
   tags = local.tags
+}
+
+resource "aws_s3_bucket_website_configuration" "example" {
+    bucket = aws_s3_bucket.bucket.bucket
+
+    index_document {
+        suffix = "index.html"
+    }
 }
 
 resource "aws_s3_bucket_policy" "bucket_policy" {
