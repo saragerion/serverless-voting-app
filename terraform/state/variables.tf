@@ -1,7 +1,6 @@
-variable "aws_region" {
-  type        = string
-  description = "The region were this website will be deployed to."
-  default     = "eu-central-1"
+variable "owner" {
+    type        = string
+    description = "The name of the owner of this website."
 }
 
 variable "env" {
@@ -17,9 +16,4 @@ variable "github_repo" {
 variable "owner" {
   type        = string
   description = "The name of the owner of this website."
-}
-
-variable "okta_base_url" {
-    type        = string
-    description = "The base url for your org, example 'dev-1234567.okta.com'"
 }

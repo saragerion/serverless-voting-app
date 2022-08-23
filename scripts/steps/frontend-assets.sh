@@ -25,6 +25,7 @@ function buildAssets() {
     mkdir -p "dist/static/$TIMESTAMP"
     cp -r "src/frontend/static/_local_/." "dist/static/$TIMESTAMP"
     sed -i "" "s/_local_/$TIMESTAMP/g" "dist/index.html"
+    sed -i "" "s/_website_domain_/${WEBSITE_DOMAIN//\"}/g" "dist/static/$TIMESTAMP/js/script.js"
 }
 
 function copyToS3() {
@@ -44,7 +45,7 @@ function updateSourceCodeChecksum() {
 function clearCloudFrontCache() {
     if [[ -n $CF_DISTRIBUTION ]]; then
         aws cloudfront create-invalidation \
-            --distribution-id "$CF_DISTRIBUTION" \
+            --distribution-id $CF_DISTRIBUTION \
             --paths "/index.html"  > /dev/null
     fi
 }

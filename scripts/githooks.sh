@@ -9,7 +9,7 @@ function commit-msg() {
   local file=$1
 
   head -n 1 $file | grep -Eq '^(fix|feat|docs|build|chore): ' ||
-    error "Please specify a valid commit type (fix, feat, docs, build, or chore) at the beginning the commit message. See the CONTRIBUITING.md file for more information."
+    error "Please specify a valid commit type (fix, feat, docs, build, or chore) at the beginning the commit message. See the CONTRIBUTING.md file for more information."
 }
 
 githook=$1

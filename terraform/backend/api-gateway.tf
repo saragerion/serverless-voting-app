@@ -28,7 +28,7 @@ resource "aws_apigatewayv2_authorizer" "api" {
 
   jwt_configuration {
     audience = ["api://default"]
-    issuer   = "https://dev-7499450.okta.com/oauth2/default"
+    issuer   = "https://${var.okta_base_url}/oauth2/default"
   }
 }
 
