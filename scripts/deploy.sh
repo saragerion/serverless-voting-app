@@ -24,7 +24,7 @@ function main {
     cd dist/backend
     zip -r lambda_functions.zip .  ../../package.json ../../node_modules
 
-    for TF_FOLDER in backend frontend
+    for TF_FOLDER in backend frontend okta
     do
         cd "$ROOT_DIR/terraform/${TF_FOLDER}"
         terraformSteps "$@"

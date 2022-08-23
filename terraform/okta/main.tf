@@ -1,4 +1,4 @@
-resource "okta_app_oauth" "example" {
+resource "okta_app_oauth" "single_page_app" {
     label                      = local.okta_app_resource_name
     type                       = "browser"
     grant_types                = ["authorization_code", "implicit"]
