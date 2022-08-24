@@ -1,14 +1,19 @@
+#######################
+# Working MVP
+# See:
+# https://developer.okta.com/docs/concepts/oauth-openid/#authorization-code-flow-with-pkce
+# https://developer.okta.com/docs/guides/implement-grant-type/-/main/#request-an-authorization-code
+#######################
+
 resource "okta_app_oauth" "single_page_app" {
     label                      = local.okta_app_resource_name
     type                       = "browser"
-    grant_types                = ["authorization_code", "implicit"]
+    token_endpoint_auth_method = "none"
+    grant_types                = ["authorization_code", "refresh_token"]
+    response_types             = ["code"]
     redirect_uris              = ["${var.frontend_website_url}/callback"]
     post_logout_redirect_uris  = [ var.frontend_website_url ]
-    response_types             = ["token", "id_token", "code"]
-
-    login_uri = "${var.frontend_website_url}/"
-
-    token_endpoint_auth_method  = "none"
+    login_uri                  = var.frontend_website_url
 
     lifecycle {
         ignore_changes = [groups]
@@ -23,5 +28,5 @@ resource "okta_app_group_assignment" "everyone_group_assignment" {
 resource "okta_trusted_origin" "website_origin" {
     name   = local.okta_app_resource_name
     origin = var.frontend_website_url
-    scopes = ["CORS", "REDIRECT"]
+    scopes = ["REDIRECT"]
 }
