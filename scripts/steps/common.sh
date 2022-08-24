@@ -41,9 +41,12 @@ function setDeploymentConfig() {
 
 function populateData() {
 
-    aws dynamodb put-item --table-name serverless-voting-app-test-eu-central-1-videos-2anyumyolxbk \
+    echo "Adding a video to the voting app..."
+    ID=$(date +%s%N)
+    aws dynamodb put-item --table-name $VIDEOS_TABLE \
         --item \
-            '{"id":{"S":"C37F761E-DDC7-4351-86E2-57A2AC4E40F5"},"description":{"S":"AWSome video #1 description"},"displayedFrom":{"N":"1605567780"},"isDisplayed":{"S":"true"},"title":{"S":"AWSome video #1 title"},"url":{"S":"https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8"}}'
+            '{"id":{"S":"'$ID'"},"description":{"S":"AWSome video #'$ID' description"},"displayedFrom":{"N":"'$(date +%s)'"},"isDisplayed":{"S":"true"},"title":{"S":"AWSome video #'$ID' title"},"url":{"S":"https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8"}}'
 
+    echo "Done!"
 }
 

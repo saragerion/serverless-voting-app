@@ -31,6 +31,7 @@ function main {
     done
 
     if [ "$1" = "apply" ]; then
+        populateData
         source "$ROOT_DIR/scripts/steps/frontend-assets.sh"
         cd "$ROOT_DIR"
         frontendAssetsSteps

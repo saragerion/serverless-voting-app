@@ -5,3 +5,7 @@ output "api_url" {
 output "api_prefix" {
   value = aws_apigatewayv2_stage.stage.name
 }
+
+output "videos_table_name" {
+    value = aws_dynamodb_table.videos.name
+}

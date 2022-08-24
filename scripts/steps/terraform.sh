@@ -54,14 +54,12 @@ function printConfig() {
 function printInputVariables() {
     echo -e "\n====================="
     echo "TERRAFORM INPUT VARIABLES"
-    echo "TF_VAR_backend_key=$PREVIOUS_BACKEND_KEY"
-    echo "TF_VAR_env=$ENV"
-    echo "TF_VAR_aws_region=$AWS_REGION"
-    echo "TF_VAR_github_repo=$GITHUB_REPO"
-    echo "TF_VAR_owner=$OWNER\n"
-    echo "TF_VAR_okta_org_name=$OKTA_ORG_NAME"
-    echo "TF_VAR_okta_base_url=$OKTA_BASE_URL"
-    echo -e "TF_VAR_okta_api_token=XXXX-${OKTA_API_TOKEN: -4}\n"
+    echo "TF_VAR_backend_key=$TF_VAR_backend_key"
+    echo "TF_VAR_env=$TF_VAR_envV"
+    echo "TF_VAR_aws_region=$TF_VAR_aws_region"
+    echo "TF_VAR_github_repo=$TF_VAR_github_repo"
+    echo "TF_VAR_owner=$TF_VAR_owner\n"
+    echo "TF_VAR_frontend_website_url=$TF_VAR_frontend_website_url"
 }
 
 function terraformInit() {
@@ -79,11 +77,7 @@ function terraformInit() {
     export TF_VAR_aws_region=$AWS_REGION
     export TF_VAR_github_repo=$GITHUB_REPO
     export TF_VAR_owner=$OWNER
-
-    export TF_VAR_okta_org_name=$OKTA_ORG_NAME
-    export TF_VAR_okta_base_url=$OKTA_BASE_URL
-    export TF_VAR_okta_api_token=$OKTA_API_TOKEN
-
+    export TF_VAR_okta_app_domain="$OKTA_ORG_NAME.$OKTA_BASE_URL"
 
     if [ "$TF_FOLDER" = "state" ]; then
         terraform init -upgrade -reconfigure
@@ -116,12 +110,26 @@ function getFrontendOutputs() {
     BUCKET_NAME=$(terraform output s3_bucket)
     CF_DISTRIBUTION=$(terraform output cloudfront_distribution)
     WEBSITE_DOMAIN=$(terraform output website_domain)
-
     echo -e "\n====================="
     echo "TERRAFORM OUTPUTS"
     echo "BUCKET_NAME=$BUCKET_NAME"
     echo "CF_DISTRIBUTION=$CF_DISTRIBUTION"
     echo -e "WEBSITE_DOMAIN=$WEBSITE_DOMAIN\n"
+}
+
+function getOktaOutputs() {
+    OKTA_CLIENT_ID=$(terraform output okta_app_client_id)
+    echo -e "\n====================="
+    echo "TERRAFORM OUTPUTS"
+    echo "OKTA_CLIENT_ID=$OKTA_CLIENT_ID"
+}
+
+function getBackendOutputs() {
+    VIDEOS_TABLE=$(terraform output videos_table_name)
+    VIDEOS_TABLE=${VIDEOS_TABLE//\"}
+    echo -e "\n====================="
+    echo "TERRAFORM OUTPUTS"
+    echo "VIDEOS_TABLE=$VIDEOS_TABLE"
 }
 
 function getStateOutputs() {
@@ -144,10 +152,19 @@ function terraformSteps() {
     terraformPlan
 
     if [ "$1" = "apply" ]; then
+
         terraformApply
+
         if [ "$TF_FOLDER" = "frontend" ]; then
             getFrontendOutputs
-            export TF_VAR_website_redirect_url_domain=${WEBSITE_DOMAIN//\"}
+
+            export TF_VAR_frontend_website_url=https://${WEBSITE_DOMAIN//\"}
+        fi
+        if [ "$TF_FOLDER" = "okta" ]; then
+            getOktaOutputs
+        fi
+        if [ "$TF_FOLDER" = "backend" ]; then
+            getBackendOutputs
         fi
     fi
 }

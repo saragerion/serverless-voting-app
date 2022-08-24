@@ -6,7 +6,7 @@ function showLoginButton() {
   const loader = document.getElementById("loader");
   loader.style.display = "none";
   let title = document.getElementById("title");
-  const loginButton = "<a id='login-button' href='https://dev-7499450.okta.com/oauth2/default/v1/authorize?client_id=0oan3zrraSw254i2B5d5&response_type=token&scope=openid&redirect_uri=https://_website_domain_/callback&state=state-296bc9a0-a2a2-4a57-be1a-d0e2fd9bb601&nonce="+ Date.now()+"'>Login with your Identity Provider</a>";
+  const loginButton = "<a id='login-button' href='https://_okta_org_name_._okta_base_url_/oauth2/default/v1/authorize?client_id=_okta_client_id_&response_type=token&scope=openid&redirect_uri=https://_website_domain_/callback&state=state-296bc9a0-a2a2-4a57-be1a-d0e2fd9bb601&nonce="+ Date.now()+"'>Login with your Identity Provider</a>";
   title.insertAdjacentHTML("afterend", loginButton);
 }
 

@@ -9,7 +9,7 @@ locals {
   component_name = "api"
   api_uri_prefix = "api"
 
-  dynamodb_diplayed_videos_index_name = "displayedVideosIndex"
+  dynamodb_displayed_videos_index_name = "displayedVideosIndex"
 
   lambda_get_videos_resource_name = "${local.verbose_service_name}-get-videos-${local.stack_name_postfix}"
   lambda_post_votes_resource_name = "${local.verbose_service_name}-post-votes-${local.stack_name_postfix}"

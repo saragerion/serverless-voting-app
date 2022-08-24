@@ -19,7 +19,7 @@ resource "aws_dynamodb_table" "videos" {
   }
 
   global_secondary_index {
-    name            = local.dynamodb_diplayed_videos_index_name
+    name            = local.dynamodb_displayed_videos_index_name
     hash_key        = "isDisplayed"
     range_key       = "displayedFrom"
     projection_type = "ALL"
