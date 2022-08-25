@@ -22,6 +22,7 @@ You'll need to have Terraform & the AWS CLI installed locally, and an OKTA accou
     * export OKTA_BASE_URL=okta.com
     * export OKTA_API_TOKEN=12345678979654645646556
 
+If needed, read here [how to create an Okta API Token](https://bit.ly/get-okta-api-token).
 
 Run:
 
