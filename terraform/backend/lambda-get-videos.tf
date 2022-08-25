@@ -21,6 +21,10 @@ resource "aws_lambda_function" "get_videos" {
     }
   }
 
+  tracing_config {
+    mode = "Active"
+  }
+
   depends_on = [
     aws_iam_role.get_videos,
   ]
@@ -33,6 +37,15 @@ resource "aws_iam_role" "get_videos" {
   assume_role_policy = data.aws_iam_policy_document.lambda_assume_role_policy_document.json
 
   tags = local.tags
+}
+
+resource "aws_iam_role_policy_attachment" "xray_read_only_get_videos" {
+  role       = local.lambda_get_videos_resource_name
+  policy_arn = data.aws_iam_policy.aws_xray_write_only_access.arn
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_iam_role_policy_attachment" "query_dynamodb" {

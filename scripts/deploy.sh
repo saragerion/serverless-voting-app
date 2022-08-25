@@ -21,6 +21,7 @@ function main {
 
     npm run build
     npm ci "--production"
+    mkdir -p dist/backend
     cd dist/backend
     zip -r lambda_functions.zip .  ../../package.json ../../node_modules
 
