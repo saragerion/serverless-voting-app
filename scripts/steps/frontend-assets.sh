@@ -1,5 +1,7 @@
 #!/bin/bash
 
+platform=$(uname)
+
 function checkCodeChanges() {
     SRC_CHECKSUM_FILE=".src-checksum-$AWS_ACCOUNT_ID-$ENV-$AWS_REGION"
     touch "$SRC_CHECKSUM_FILE"
@@ -24,11 +26,21 @@ function buildAssets() {
     cp "src/frontend/index.html" "dist/index.html"
     mkdir -p "dist/static/$TIMESTAMP"
     cp -r "src/frontend/static/_local_/." "dist/static/$TIMESTAMP"
-    sed -i "s/_local_/$TIMESTAMP/g" "dist/index.html"
-    sed -i "s/_okta_base_url_/${OKTA_BASE_URL//\"}/g" "dist/static/$TIMESTAMP/js/script.js"
-    sed -i "s/_okta_client_id_/${OKTA_CLIENT_ID//\"}/g" "dist/static/$TIMESTAMP/js/script.js"
-    sed -i "s/_okta_org_name_/${OKTA_ORG_NAME//\"}/g" "dist/static/$TIMESTAMP/js/script.js"
-    sed -i "s/_website_domain_/${WEBSITE_DOMAIN//\"}/g" "dist/static/$TIMESTAMP/js/script.js"
+    # If platform is macOS
+    if [[ $platform == 'Darwin' ]]; then
+        sed -i "s/_local_/$TIMESTAMP/g" "dist/index.html"
+        sed -i "s/_okta_base_url_/${OKTA_BASE_URL//\"}/g" "dist/static/$TIMESTAMP/js/script.js"
+        sed -i "s/_okta_client_id_/${OKTA_CLIENT_ID//\"}/g" "dist/static/$TIMESTAMP/js/script.js"
+        sed -i "s/_okta_org_name_/${OKTA_ORG_NAME//\"}/g" "dist/static/$TIMESTAMP/js/script.js"
+        sed -i "s/_website_domain_/${WEBSITE_DOMAIN//\"}/g" "dist/static/$TIMESTAMP/js/script.js"
+    # Else, most likely it's Linux-based
+    else
+        sed -i "" "s/_local_/$TIMESTAMP/g" "dist/index.html"
+        sed -i "" "s/_okta_base_url_/${OKTA_BASE_URL//\"}/g" "dist/static/$TIMESTAMP/js/script.js"
+        sed -i "" "s/_okta_client_id_/${OKTA_CLIENT_ID//\"}/g" "dist/static/$TIMESTAMP/js/script.js"
+        sed -i "" "s/_okta_org_name_/${OKTA_ORG_NAME//\"}/g" "dist/static/$TIMESTAMP/js/script.js"
+        sed -i "" "s/_website_domain_/${WEBSITE_DOMAIN//\"}/g" "dist/static/$TIMESTAMP/js/script.js"
+    fi
 }
 
 function copyToS3() {
