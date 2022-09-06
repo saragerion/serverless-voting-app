@@ -43,9 +43,9 @@ function populateData() {
 
     echo "Adding a video to the voting app..."
     ID=$(date +%s%N)
-    aws dynamodb put-item --table-name $f \
+    aws dynamodb put-item --table-name $VIDEOS_TABLE \
         --item \
-            '{"id":{"S":"'$ID'"},"description":{"S":"AWSome video #'$ID' description"},"displayedFrom":{"N":"'$(date +%s)'"},"isDisplayed":{"S":"true"},"title":{"S":"AWSome video #'$ID' title"},"url":{"S":"https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8"}}'
+            '{"id":{"S":"'$ID'"},"description":{"S":"AWSome video #'$ID' description"},"displayedFrom":{"N":"'$(date +%s)'"},"isDisplayed":{"S":"true"},"title":{"S":"AWSome video #'$ID' title"},"url":{"S":"https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8"}, "upvotes": {"N":"0"}, "downvotes": {"N": "0"}}'
 
     echo "Done!"
 }

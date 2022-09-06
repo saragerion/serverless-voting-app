@@ -1,9 +1,8 @@
-import type { APIGatewayEvent } from 'aws-lambda';
+import type { APIGatewayEvent } from 'aws-lambda'; 
 import { Decision, User } from './common/types';
 import { PutItemCommand, UpdateItemCommand } from '@aws-sdk/client-dynamodb';
 import { dynamodbClientV3, logger, metrics, tracer } from './common';
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const got = require('got').default;
+import request from 'phin';
 
 import middy from '@middy/core';
 import { injectLambdaContext } from '@aws-lambda-powertools/logger';
@@ -18,11 +17,11 @@ const dynamoDBTableVideos = process.env.TABLE_NAME_VIDEOS || '';
 const getUserUUID = async (): Promise<string> => {
 
   try {
-    const response: User = await got('https://6214c09489fad53b1f1db75c.mockapi.io/api/users/1', {
-      timeout: {
-        request: 3000
-      }
-    }).json();
+    const response = (await request({
+      url: 'https://6214c09489fad53b1f1db75c.mockapi.io/api/users/1',
+      timeout: 3000,
+      parse: 'json'
+    })).body as unknown as User;
 
     return response.UUID;
   } catch (error) {

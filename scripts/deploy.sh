@@ -21,6 +21,7 @@ function main {
 
     npm run build
     npm ci "--production"
+    mkdir -p dist/backend
     cd dist/backend
     zip -r lambda_functions.zip .  ../../package.json ../../node_modules
 
@@ -39,7 +40,7 @@ function main {
         echo "Above you can see the planned changes. To apply those changes run './scripts/deploy.sh apply' "
     fi
 
-    npm install "--production=false"
+    npm install "--include=dev"
 }
 
 main "${*}"

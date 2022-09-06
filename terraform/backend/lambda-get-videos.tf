@@ -21,6 +21,10 @@ resource "aws_lambda_function" "get_videos" {
     }
   }
 
+  tracing_config {
+    mode = "Active"
+  }
+
   depends_on = [
     aws_iam_role.get_videos,
   ]
@@ -35,8 +39,17 @@ resource "aws_iam_role" "get_videos" {
   tags = local.tags
 }
 
+resource "aws_iam_role_policy_attachment" "xray_read_only_get_videos" {
+  role       = aws_iam_role.get_videos.name
+  policy_arn = data.aws_iam_policy.aws_xray_write_only_access.arn
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
 resource "aws_iam_role_policy_attachment" "query_dynamodb" {
-  role       = local.lambda_get_videos_resource_name
+  role       = aws_iam_role.get_videos.name
   policy_arn = aws_iam_policy.query_dynamodb.arn
 
   lifecycle {
@@ -103,7 +116,7 @@ resource "aws_cloudwatch_log_group" "get_videos" {
 }
 
 resource "aws_iam_role_policy_attachment" "get_videos" {
-  role       = local.lambda_get_videos_resource_name
+  role       = aws_iam_role.get_videos.name
   policy_arn = aws_iam_policy.lambda_logging.arn
 
   lifecycle {
