@@ -114,6 +114,8 @@ resource "aws_cloudfront_distribution" "bucket_distribution" {
   }
 
   tags = local.tags
+
+  provider = aws.aws_us_east_1
 }
 
 resource "aws_cloudfront_origin_access_identity" "origin_access_identity" {
