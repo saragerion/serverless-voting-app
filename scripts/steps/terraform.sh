@@ -55,10 +55,10 @@ function printInputVariables() {
     echo -e "\n====================="
     echo "TERRAFORM INPUT VARIABLES"
     echo "TF_VAR_backend_key=$TF_VAR_backend_key"
-    echo "TF_VAR_env=$TF_VAR_envV"
+    echo "TF_VAR_env=$TF_VAR_env"
     echo "TF_VAR_aws_region=$TF_VAR_aws_region"
     echo "TF_VAR_github_repo=$TF_VAR_github_repo"
-    echo "TF_VAR_owner=$TF_VAR_owner\n"
+    echo "TF_VAR_owner=$TF_VAR_owner"
     echo "TF_VAR_frontend_website_url=$TF_VAR_frontend_website_url"
 }
 
@@ -121,7 +121,7 @@ function getOktaOutputs() {
     OKTA_CLIENT_ID=$(terraform output okta_app_client_id)
     echo -e "\n====================="
     echo "TERRAFORM OUTPUTS"
-    echo "OKTA_CLIENT_ID=$OKTA_CLIENT_ID"
+    echo -e "OKTA_CLIENT_ID=$OKTA_CLIENT_ID\n"
 }
 
 function getBackendOutputs() {
@@ -129,7 +129,7 @@ function getBackendOutputs() {
     VIDEOS_TABLE=${VIDEOS_TABLE//\"}
     echo -e "\n====================="
     echo "TERRAFORM OUTPUTS"
-    echo "VIDEOS_TABLE=$VIDEOS_TABLE"
+    echo "VIDEOS_TABLE=$VIDEOS_TABLE\n"
 }
 
 function getStateOutputs() {

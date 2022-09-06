@@ -47,9 +47,7 @@ function updateSourceCodeChecksum() {
 
 function clearCloudFrontCache() {
     if [[ -n $CF_DISTRIBUTION ]]; then
-        aws cloudfront create-invalidation \
-            --distribution-id $CF_DISTRIBUTION \
-            --paths "/index.html"  > /dev/null
+        aws cloudfront create-invalidation --distribution-id ${CF_DISTRIBUTION//\"} --paths "/index.html"  > /dev/null
     fi
 }
 
@@ -62,7 +60,7 @@ function printWebsite() {
     if [[ -n $WEBSITE_DOMAIN ]]; then
         echo -e "\n====================="
         echo "WEBSITE URL"
-        echo "https://${WEBSITE_DOMAIN}"
+        echo "https://${WEBSITE_DOMAIN//\"}"
     fi
 }
 

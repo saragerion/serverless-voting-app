@@ -40,7 +40,7 @@ function main {
         echo "Above you can see the planned changes. To apply those changes run './scripts/deploy.sh apply' "
     fi
 
-    npm install "--production=false"
+    npm install "--include=dev"
 }
 
 main "${*}"
