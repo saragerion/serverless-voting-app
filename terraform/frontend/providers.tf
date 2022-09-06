@@ -12,12 +12,7 @@ terraform {
 }
 
 provider "aws" {
-  region = var.aws_region
-}
-
-provider "aws" {
-    alias  = "aws_us_east_1"
-    region = "us-east-1"
+  region = "us-east-1"
 }
 
 provider "random" {}

@@ -41,7 +41,7 @@ resource "aws_iam_role" "post_votes" {
 }
 
 resource "aws_iam_role_policy_attachment" "write_dynamodb" {
-  role       = local.lambda_post_votes_resource_name
+  role       = aws_iam_role.post_votes.name
   policy_arn = aws_iam_policy.write_dynamodb.arn
 
   lifecycle {
@@ -54,7 +54,7 @@ resource "aws_iam_role_policy_attachment" "write_dynamodb" {
 }
 
 resource "aws_iam_role_policy_attachment" "xray_read_only_post_votes" {
-  role       = local.lambda_post_votes_resource_name
+  role       = aws_iam_role.post_votes.name
   policy_arn = data.aws_iam_policy.aws_xray_write_only_access.arn
 
   lifecycle {
@@ -129,7 +129,7 @@ resource "aws_cloudwatch_log_group" "post_votes" {
 }
 
 resource "aws_iam_role_policy_attachment" "post_votes" {
-  role       = local.lambda_post_votes_resource_name
+  role       = aws_iam_role.post_votes.name
   policy_arn = aws_iam_policy.lambda_post_votes_logging.arn
 
   lifecycle {
