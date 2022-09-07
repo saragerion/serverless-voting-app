@@ -60,7 +60,7 @@ function printWebsite() {
     if [[ -n $CLOUDFRONT_DISTRIBUTION_DOMAIN ]]; then
         echo -e "\n====================="
         echo "WEBSITE URL"
-        echo "https://${CLOUDFRONT_DISTRIBUTION_DOMAIN//\"}"
+        echo "https://${CLOUDFRONT_DISTRIBUTION_ALIAS//\"}"
     fi
 }
 
