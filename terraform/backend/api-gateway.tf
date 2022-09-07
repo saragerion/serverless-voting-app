@@ -50,8 +50,8 @@ resource "aws_apigatewayv2_stage" "stage" {
   deployment_id = aws_apigatewayv2_deployment.deployment.id
 
   default_route_settings {
-      throttling_burst_limit = 5000
-      throttling_rate_limit = 10000
+    throttling_burst_limit = 5000
+    throttling_rate_limit  = 10000
   }
 
   lifecycle {

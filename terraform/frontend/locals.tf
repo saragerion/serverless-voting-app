@@ -10,6 +10,8 @@ locals {
 
   cloudfront_distribution_id = aws_cloudfront_distribution.bucket_distribution.id
 
+  cloudfront_distribution_alias = "${local.service_name}.${var.hosted_zone}"
+
   component_name    = "frontend"
   website_origin_id = "${local.verbose_service_name}-website"
   api_origin_id     = "${local.verbose_service_name}-api"

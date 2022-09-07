@@ -59,6 +59,7 @@ function printInputVariables() {
     echo "TF_VAR_aws_region=$TF_VAR_aws_region"
     echo "TF_VAR_github_repo=$TF_VAR_github_repo"
     echo "TF_VAR_owner=$TF_VAR_owner"
+    echo "TF_VAR_hosted_zone=$TF_VAR_hosted_zone"
     echo "TF_VAR_frontend_website_url=$TF_VAR_frontend_website_url"
 }
 
@@ -77,6 +78,7 @@ function terraformInit() {
     export TF_VAR_aws_region=$AWS_REGION
     export TF_VAR_github_repo=$GITHUB_REPO
     export TF_VAR_owner=$OWNER
+    export TF_VAR_hosted_zone=$AWS_HOSTED_ZONE_NAME
     export TF_VAR_okta_app_domain="$OKTA_ORG_NAME.$OKTA_BASE_URL"
 
     if [ "$TF_FOLDER" = "state" ]; then

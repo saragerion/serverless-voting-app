@@ -1,7 +1,7 @@
 variable "aws_region" {
-    type        = string
-    description = "The region were this website will be deployed to."
-    default     = "eu-central-1"
+  type        = string
+  description = "The region were this website will be deployed to."
+  default     = "eu-central-1"
 }
 
 variable "env" {
@@ -20,7 +20,7 @@ variable "owner" {
 }
 
 variable "frontend_website_url" {
-    type        = string
-    description = "The base url for your org, example 'https://d1nmd3ycyktnbq.cloudfront.net'"
+  type        = string
+  description = "The base url for your org, example 'https://d1nmd3ycyktnbq.cloudfront.net'"
 }
 

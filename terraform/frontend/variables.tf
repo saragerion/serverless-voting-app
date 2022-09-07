@@ -19,6 +19,12 @@ variable "owner" {
   description = "The name of the owner of this service."
 }
 
+variable "hosted_zone" {
+  type        = string
+  description = "The the domain used for the website (public hosted zone), for example: demo.mydomain.com"
+  default     = ""
+}
+
 variable "backend_region" {
   type        = string
   description = "The region of the terraform state"

@@ -7,5 +7,5 @@ output "api_prefix" {
 }
 
 output "videos_table_name" {
-    value = aws_dynamodb_table.videos.name
+  value = aws_dynamodb_table.videos.name
 }

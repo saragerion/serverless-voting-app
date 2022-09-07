@@ -113,6 +113,19 @@ resource "aws_cloudfront_distribution" "bucket_distribution" {
     cloudfront_default_certificate = true
   }
 
+  aliases = [
+    local.cloudfront_distribution_alias
+  ]
+
+  viewer_certificate {
+    acm_certificate_arn = aws_acm_certificate.website_domain.arn
+    ssl_support_method  = "sni-only"
+  }
+
+  depends_on = [
+    aws_acm_certificate.website_domain
+  ]
+
   tags = local.tags
 }
 

@@ -9,10 +9,10 @@ resource "aws_lambda_function" "get_videos" {
 
   environment {
     variables = {
-      ENVIRONMENT                   = var.env
-      AWS_ACCOUNT_ID                = local.aws_account_id
-      TABLE_NAME_VIDEOS             = local.dynamodb_videos_resource_name,
-      DISPLAYED_VIDEOS_INDEX_NAME   = local.dynamodb_displayed_videos_index_name,
+      ENVIRONMENT                 = var.env
+      AWS_ACCOUNT_ID              = local.aws_account_id
+      TABLE_NAME_VIDEOS           = local.dynamodb_videos_resource_name,
+      DISPLAYED_VIDEOS_INDEX_NAME = local.dynamodb_displayed_videos_index_name,
       // Powertools environment variables
       POWERTOOLS_SERVICE_NAME       = local.powertools_service_name
       POWERTOOLS_LOGGER_LOG_LEVEL   = local.powertools_logger_log_level

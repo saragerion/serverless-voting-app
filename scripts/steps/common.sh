@@ -18,6 +18,8 @@ function getUserInput() {
     GITHUB_REPO=${GITHUB_REPO:-saragerion/serverless-voting-app}
     read -r -p "Enter the name of the owner of this website, like your name or the name of your team [$(git config user.name)]: " OWNER
     OWNER=${OWNER:-$(git config user.name)}
+    read -r -p "Enter the domain used for the website (public hosted zone) [$AWS_HOSTED_ZONE_NAME]: " HOSTED_ZONE
+    AWS_HOSTED_ZONE_NAME=${HOSTED_ZONE:-$(echo $AWS_HOSTED_ZONE_NAME)}
 
     read -r -p "Enter the name of the OKTA org name [$OKTA_ORG_NAME]: " ORG_NAME
     OKTA_ORG_NAME=${ORG_NAME:-$(echo $OKTA_ORG_NAME)}

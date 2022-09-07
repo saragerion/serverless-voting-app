@@ -9,3 +9,8 @@ data "terraform_remote_state" "self" {
     region = var.backend_region
   }
 }
+
+data "aws_route53_zone" "hosted_zone" {
+  name         = "${var.hosted_zone}."
+  private_zone = false
+}

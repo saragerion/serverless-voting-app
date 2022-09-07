@@ -20,6 +20,6 @@ variable "owner" {
 }
 
 variable "okta_app_domain" {
-    type        = string
-    description = "The base url for your org, example 'dev-1234567.okta.com'"
+  type        = string
+  description = "The base url for your org, example 'dev-1234567.okta.com'"
 }

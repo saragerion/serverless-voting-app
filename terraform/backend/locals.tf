@@ -19,9 +19,9 @@ locals {
 
   is_current_env_prod = (var.env == "prod") ? true : false
 
-  powertools_service_name = local.service_name
-  powertools_logger_log_level = local.is_current_env_prod ? "WARN" : "DEBUG"
-  powertools_metrics_namespace = "octank" // Dummy company name
+  powertools_service_name       = local.service_name
+  powertools_logger_log_level   = local.is_current_env_prod ? "WARN" : "DEBUG"
+  powertools_metrics_namespace  = "octank" // Dummy company name
   powertools_logger_sample_rate = local.is_current_env_prod ? "0.1" : "1"
 
 }
