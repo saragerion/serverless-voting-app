@@ -28,7 +28,7 @@ function buildAssets() {
     sed -i "" "s/_okta_base_url_/${OKTA_BASE_URL//\"}/g" "dist/static/$TIMESTAMP/js/script.js"
     sed -i "" "s/_okta_client_id_/${OKTA_CLIENT_ID//\"}/g" "dist/static/$TIMESTAMP/js/script.js"
     sed -i "" "s/_okta_org_name_/${OKTA_ORG_NAME//\"}/g" "dist/static/$TIMESTAMP/js/script.js"
-    sed -i "" "s/_website_domain_/${WEBSITE_DOMAIN//\"}/g" "dist/static/$TIMESTAMP/js/script.js"
+    sed -i "" "s/_cloudfront_distribution_alias_/${CLOUDFRONT_DISTRIBUTION_ALIAS//\"}/g" "dist/static/$TIMESTAMP/js/script.js"
 }
 
 function copyToS3() {
@@ -46,8 +46,8 @@ function updateSourceCodeChecksum() {
 }
 
 function clearCloudFrontCache() {
-    if [[ -n $CF_DISTRIBUTION ]]; then
-        aws cloudfront create-invalidation --distribution-id ${CF_DISTRIBUTION//\"} --paths "/index.html"  > /dev/null
+    if [[ -n $CF_DISTRIBUTION_ID ]]; then
+        aws cloudfront create-invalidation --distribution-id ${CF_DISTRIBUTION_ID//\"} --paths "/index.html"  > /dev/null
     fi
 }
 
@@ -57,10 +57,10 @@ function emptyBucket() {
 }
 
 function printWebsite() {
-    if [[ -n $WEBSITE_DOMAIN ]]; then
+    if [[ -n $CLOUDFRONT_DISTRIBUTION_DOMAIN ]]; then
         echo -e "\n====================="
         echo "WEBSITE URL"
-        echo "https://${WEBSITE_DOMAIN//\"}"
+        echo "https://${CLOUDFRONT_DISTRIBUTION_DOMAIN//\"}"
     fi
 }
 

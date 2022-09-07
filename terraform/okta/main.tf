@@ -11,9 +11,9 @@ resource "okta_app_oauth" "single_page_app" {
   token_endpoint_auth_method = "none"
   grant_types                = ["authorization_code", "refresh_token"]
   response_types             = ["code"]
-  redirect_uris              = ["${var.frontend_website_url}/callback"]
-  post_logout_redirect_uris  = [var.frontend_website_url]
-  login_uri                  = var.frontend_website_url
+  redirect_uris              = ["https://${local.cloudfront_distribution_alias}/callback"]
+  post_logout_redirect_uris  = ["https://${local.cloudfront_distribution_alias}"]
+  login_uri                  = "https://${local.cloudfront_distribution_alias}"
 
   lifecycle {
     ignore_changes = [groups]
@@ -27,6 +27,6 @@ resource "okta_app_group_assignment" "everyone_group_assignment" {
 
 resource "okta_trusted_origin" "website_origin" {
   name   = local.okta_app_resource_name
-  origin = var.frontend_website_url
+  origin = "https://${local.cloudfront_distribution_alias}"
   scopes = ["REDIRECT"]
 }

@@ -109,21 +109,20 @@ resource "aws_cloudfront_distribution" "bucket_distribution" {
     }
   }
 
-  viewer_certificate {
-    cloudfront_default_certificate = true
-  }
-
   aliases = [
     local.cloudfront_distribution_alias
   ]
 
   viewer_certificate {
-    acm_certificate_arn = aws_acm_certificate.website_domain.arn
-    ssl_support_method  = "sni-only"
+    acm_certificate_arn            = aws_acm_certificate.website_domain.arn
+    ssl_support_method             = "sni-only"
+    cloudfront_default_certificate = false
   }
 
   depends_on = [
-    aws_acm_certificate.website_domain
+    aws_acm_certificate.website_domain,
+    aws_route53_record.website_domain_validation_record,
+    aws_acm_certificate_validation.website_domain
   ]
 
   tags = local.tags

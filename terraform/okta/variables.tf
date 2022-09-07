@@ -19,8 +19,15 @@ variable "owner" {
   description = "The name of the owner of this website."
 }
 
-variable "frontend_website_url" {
+variable "cloudfront_distribution_url" {
   type        = string
-  description = "The base url for your org, example 'https://d1nmd3ycyktnbq.cloudfront.net'"
+  description = "The base url of the cloudfront distribution, for example 'https://d1nmd3ycyktnbq.cloudfront.net'"
 }
+
+variable "hosted_zone" {
+  type        = string
+  description = "The the domain used for the website (public hosted zone), for example: demo.mydomain.com"
+  default     = ""
+}
+
 

@@ -60,7 +60,7 @@ function printInputVariables() {
     echo "TF_VAR_github_repo=$TF_VAR_github_repo"
     echo "TF_VAR_owner=$TF_VAR_owner"
     echo "TF_VAR_hosted_zone=$TF_VAR_hosted_zone"
-    echo "TF_VAR_frontend_website_url=$TF_VAR_frontend_website_url"
+    echo "TF_VAR_cloudfront_distribution_url=$TF_VAR_cloudfront_distribution_url"
 }
 
 function terraformInit() {
@@ -110,13 +110,15 @@ function terraformDestroy() {
 
 function getFrontendOutputs() {
     BUCKET_NAME=$(terraform output s3_bucket)
-    CF_DISTRIBUTION=$(terraform output cloudfront_distribution)
-    WEBSITE_DOMAIN=$(terraform output website_domain)
+    CF_DISTRIBUTION_ID=$(terraform output cloudfront_distribution_id)
+    CLOUDFRONT_DISTRIBUTION_DOMAIN=$(terraform output cloudfront_distribution_domain)
+    CLOUDFRONT_DISTRIBUTION_ALIAS=$(terraform output cloudfront_distribution_alias)
     echo -e "\n====================="
     echo "TERRAFORM OUTPUTS"
     echo "BUCKET_NAME=$BUCKET_NAME"
-    echo "CF_DISTRIBUTION=$CF_DISTRIBUTION"
-    echo -e "WEBSITE_DOMAIN=$WEBSITE_DOMAIN\n"
+    echo "CF_DISTRIBUTION_ID=$CF_DISTRIBUTION_ID"
+    echo "CLOUDFRONT_DISTRIBUTION_DOMAIN=$CLOUDFRONT_DISTRIBUTION_DOMAIN\n"
+    echo -e "CLOUDFRONT_DISTRIBUTION_ALIAS=$CLOUDFRONT_DISTRIBUTION_ALIAS\n"
 }
 
 function getOktaOutputs() {
@@ -160,7 +162,7 @@ function terraformSteps() {
         if [ "$TF_FOLDER" = "frontend" ]; then
             getFrontendOutputs
 
-            export TF_VAR_frontend_website_url=https://${WEBSITE_DOMAIN//\"}
+            export TF_VAR_cloudfront_distribution_url=https://${CLOUDFRONT_DISTRIBUTION_DOMAIN//\"}
         fi
         if [ "$TF_FOLDER" = "okta" ]; then
             getOktaOutputs

@@ -7,5 +7,7 @@ locals {
 
   okta_app_resource_name = "${local.aws_account_id}-${local.verbose_service_name}-app-${local.stack_name_postfix}"
 
+  cloudfront_distribution_alias = "${local.verbose_service_name}.${var.hosted_zone}"
+
   tags = module.identifiers.tags
 }
