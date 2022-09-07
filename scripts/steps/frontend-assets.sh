@@ -57,7 +57,7 @@ function emptyBucket() {
 }
 
 function printWebsite() {
-    if [[ -n $CLOUDFRONT_DISTRIBUTION_DOMAIN ]]; then
+    if [[ -n $CLOUDFRONT_DISTRIBUTION_ALIAS ]]; then
         echo -e "\n====================="
         echo "WEBSITE URL"
         echo "https://${CLOUDFRONT_DISTRIBUTION_ALIAS//\"}"
