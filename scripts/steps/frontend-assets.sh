@@ -4,7 +4,7 @@ function checkCodeChanges() {
     SRC_CHECKSUM_FILE=".src-checksum-$AWS_ACCOUNT_ID-$ENV-$AWS_REGION"
     touch "$SRC_CHECKSUM_FILE"
 
-    FILES_DEPLOYED=$(aws s3 ls "s3://${BUCKET_NAME//\"}")
+    FILES_DEPLOYED=$(aws s3 ls --region "$AWS_REGION" "s3://${BUCKET_NAME//\"}")
     if [ -z "${FILES_DEPLOYED}" ]; then
         return
     fi
@@ -33,11 +33,13 @@ function buildAssets() {
 
 function copyToS3() {
     aws s3 cp "dist/index.html" "s3://${BUCKET_NAME//\"}/index.html" \
-        --expires $(date -d "+30 minutes" -u +"%Y-%m-%dT%H:%M:%SZ") \
+        --region "$AWS_REGION" \
+        --expires $(gdate -d "+30 minutes" -u +"%Y-%m-%dT%H:%M:%SZ") \
         --cache-control "max-age=1800,public"
     aws s3 cp "dist/static/" "s3://${BUCKET_NAME//\"}/static/" \
+        --region "$AWS_REGION" \
         --recursive \
-        --expires $(date -d "+1 day" -u +"%Y-%m-%dT%H:%M:%SZ") \
+        --expires $(gdate -d "+1 day" -u +"%Y-%m-%dT%H:%M:%SZ") \
         --cache-control "max-age=86400,public"
 }
 
@@ -47,13 +49,13 @@ function updateSourceCodeChecksum() {
 
 function clearCloudFrontCache() {
     if [[ -n $CF_DISTRIBUTION_ID ]]; then
-        aws cloudfront create-invalidation --distribution-id ${CF_DISTRIBUTION_ID//\"} --paths "/index.html"  > /dev/null
+        aws cloudfront create-invalidation --region "$AWS_REGION" --distribution-id ${CF_DISTRIBUTION_ID//\"} --paths "/index.html"  > /dev/null
     fi
 }
 
 function emptyBucket() {
     echo -e "\nEmptying bucket..."
-    aws s3 rm "s3://${BUCKET_NAME//\"}" --recursive
+    aws s3 rm --region "$AWS_REGION" "s3://${BUCKET_NAME//\"}" --recursive
 }
 
 function printWebsite() {
