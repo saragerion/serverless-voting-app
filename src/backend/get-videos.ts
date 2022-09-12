@@ -55,7 +55,10 @@ const lambdaHandler = async (event: APIGatewayRequestAuthorizerEvent): Promise<s
     details: { videos }
   });
 
-  return JSON.stringify({ data: videos });
+  return JSON.stringify({ 
+    region: process.env.AWS_REGION,
+    data: videos 
+  });
 };
 
 const handler = middy(lambdaHandler)
