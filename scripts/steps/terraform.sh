@@ -108,6 +108,17 @@ function terraformDestroy() {
     terraform destroy -auto-approve
 }
 
+function getCrossRegionInfraOutputs() {
+    VIDEOS_GLOBAL_TABLE=$(terraform output --raw videos_table_name)
+    VOTES_GLOBAL_TABLE=$(terraform output --raw votes_table_name)
+    DISPLAYED_VIDEOS_INDEX_NAME=$(terraform output --raw displayed_videos_index_name)
+    echo -e "\n====================="
+    echo "TERRAFORM OUTPUTS"
+    echo "VIDEOS_GLOBAL_TABLE=$VIDEOS_GLOBAL_TABLE"
+    echo "VOTES_GLOBAL_TABLE=$VOTES_GLOBAL_TABLE"
+    echo "DISPLAYED_VIDEOS_INDEX_NAME=$DISPLAYED_VIDEOS_INDEX_NAME"
+}
+
 function getFrontendOutputs() {
     BUCKET_NAME=$(terraform output s3_bucket)
     CF_DISTRIBUTION_ID=$(terraform output cloudfront_distribution_id)
@@ -159,6 +170,13 @@ function terraformSteps() {
 
         terraformApply
 
+        if [ "$TF_FOLDER" = "cross-region-infra" ]; then
+            getCrossRegionInfraOutputs
+
+            export TF_VAR_videos_global_table=${VIDEOS_GLOBAL_TABLE}
+            export TF_VAR_votes_global_table=${VOTES_GLOBAL_TABLE}
+            export TF_VAR_displayed_videos_index_name=${DISPLAYED_VIDEOS_INDEX_NAME}
+        fi
         if [ "$TF_FOLDER" = "frontend" ]; then
             getFrontendOutputs
 
