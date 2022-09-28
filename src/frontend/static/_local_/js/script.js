@@ -47,6 +47,8 @@ const loadData = () => {
       const responseData = response.data;
       console.log('DATA', response.data);
 
+      updateRegion(response.region);
+
       loader.style.display = 'none';
       for (let i = 0; i < responseData.length; i++) {
         const videoId = 'video_' + i;
@@ -69,6 +71,11 @@ const loadData = () => {
     }
 
   };
+};
+
+const updateRegion = (regionName) => {
+  const regionSpan = document.getElementById('region');
+  regionSpan.innerText = regionName;
 };
 
 const registerVoteSubmission = () => {
