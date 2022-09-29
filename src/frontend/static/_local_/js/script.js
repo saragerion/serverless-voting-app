@@ -25,12 +25,12 @@ const showLoginButton = () => {
 
 const loadData = () => {
 
-  const accessToken = localStorage.getItem('accessToken');
-  if (!accessToken) {
-    showLoginButton();
+  // const accessToken = localStorage.getItem('accessToken');
+  // if (!accessToken) {
+  //   showLoginButton();
 
-    return;
-  }
+  //   return;
+  // }
 
   const loader = document.getElementById('loader');
   loader.style.display = 'block';
@@ -38,7 +38,7 @@ const loadData = () => {
   const xhr = new XMLHttpRequest();
   xhr.open('get', '/api/videos', true);
   xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-  xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
+  // xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
   xhr.send();
 
   xhr.onreadystatechange = function () {
@@ -65,7 +65,8 @@ const loadData = () => {
 
       registerVoteSubmission();
     } else if (this.readyState == 4 && this.status == 401) {
-      showLoginButton();
+      // showLoginButton();
+      alert('Received 401 response from backend');
 
       return;
     }
@@ -207,6 +208,8 @@ const authorizeApp = () => {
   }
 };
 
-let localStorage = window.localStorage;
-
-authorizeApp();
+// let localStorage = window.localStorage;
+//
+// authorizeApp();
+console.log('loading data');
+loadData();

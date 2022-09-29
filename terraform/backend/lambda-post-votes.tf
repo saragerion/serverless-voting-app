@@ -190,9 +190,9 @@ resource "aws_apigatewayv2_route" "post_votes" {
 
   route_key            = "POST /votes"
   target               = "integrations/${aws_apigatewayv2_integration.post_votes.id}"
-  authorizer_id        = aws_apigatewayv2_authorizer.api.id
-  authorization_type   = "JWT"
-  authorization_scopes = ["openid"]
+  # authorizer_id        = aws_apigatewayv2_authorizer.api.id
+  # authorization_type   = "JWT"
+  # authorization_scopes = ["openid"]
 
   lifecycle {
     create_before_destroy = true
