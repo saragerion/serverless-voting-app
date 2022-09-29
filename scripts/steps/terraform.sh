@@ -120,43 +120,43 @@ function getCrossRegionInfraOutputs() {
 }
 
 function getFrontendOutputs() {
-    BUCKET_NAME=$(terraform output s3_bucket)
-    CF_DISTRIBUTION_ID=$(terraform output cloudfront_distribution_id)
-    CLOUDFRONT_DISTRIBUTION_DOMAIN=$(terraform output cloudfront_distribution_domain)
-    CLOUDFRONT_DISTRIBUTION_ALIAS=$(terraform output cloudfront_distribution_alias)
+    BUCKET_NAME=$(terraform output --raw s3_bucket)
+    CF_DISTRIBUTION_ID=$(terraform output --raw cloudfront_distribution_id)
+    CLOUDFRONT_DISTRIBUTION_DOMAIN=$(terraform output --raw cloudfront_distribution_domain)
+    CLOUDFRONT_DISTRIBUTION_ALIAS=$(terraform output --raw cloudfront_distribution_alias)
     echo -e "\n====================="
     echo "TERRAFORM OUTPUTS"
     echo "BUCKET_NAME=$BUCKET_NAME"
     echo "CF_DISTRIBUTION_ID=$CF_DISTRIBUTION_ID"
-    echo "CLOUDFRONT_DISTRIBUTION_DOMAIN=$CLOUDFRONT_DISTRIBUTION_DOMAIN\n"
-    echo -e "CLOUDFRONT_DISTRIBUTION_ALIAS=$CLOUDFRONT_DISTRIBUTION_ALIAS\n"
+    echo "CLOUDFRONT_DISTRIBUTION_DOMAIN=$CLOUDFRONT_DISTRIBUTION_DOMAIN"
+    echo -e "CLOUDFRONT_DISTRIBUTION_ALIAS=$CLOUDFRONT_DISTRIBUTION_ALIAS"
 }
 
 function getOktaOutputs() {
-    OKTA_CLIENT_ID=$(terraform output okta_app_client_id)
+    OKTA_CLIENT_ID=$(terraform output --raw okta_app_client_id)
     echo -e "\n====================="
     echo "TERRAFORM OUTPUTS"
-    echo -e "OKTA_CLIENT_ID=$OKTA_CLIENT_ID\n"
+    echo -e "OKTA_CLIENT_ID=$OKTA_CLIENT_ID"
 }
 
 function getBackendOutputs() {
-    VIDEOS_TABLE=$(terraform output videos_table_name)
+    VIDEOS_TABLE=$(terraform output --raw videos_table_name)
     VIDEOS_TABLE=${VIDEOS_TABLE//\"}
     echo -e "\n====================="
     echo "TERRAFORM OUTPUTS"
-    echo "VIDEOS_TABLE=$VIDEOS_TABLE\n"
+    echo "VIDEOS_TABLE=$VIDEOS_TABLE"
 }
 
 function getStateOutputs() {
-    STATE_S3_BUCKET_NAME=$(terraform output state_s3_bucket)
-    STATE_DYNAMODB_TABLE_NAME=$(terraform output state_dynamodb_table)
-    STATE_AWS_REGION=$(terraform output state_aws_region)
+    STATE_S3_BUCKET_NAME=$(terraform output --raw state_s3_bucket)
+    STATE_DYNAMODB_TABLE_NAME=$(terraform output --raw state_dynamodb_table)
+    STATE_AWS_REGION=$(terraform output --raw state_aws_region)
 
     echo -e "\n====================="
     echo "TERRAFORM OUTPUTS"
     echo "STATE_S3_BUCKET_NAME=$STATE_S3_BUCKET_NAME"
     echo "STATE_DYNAMODB_TABLE_NAME=$STATE_DYNAMODB_TABLE_NAME"
-    echo -e "STATE_AWS_REGION=$STATE_AWS_REGION\n"
+    echo -e "STATE_AWS_REGION=$STATE_AWS_REGION"
 }
 
 function terraformSteps() {
@@ -166,28 +166,30 @@ function terraformSteps() {
     terraformValidate
     terraformPlan
 
+    # Initialize Terraform's variables based on the stack getting created
+    if [ "$TF_FOLDER" = "cross-region-infra" ]; then
+        getCrossRegionInfraOutputs
+
+        export TF_VAR_videos_global_table=${VIDEOS_GLOBAL_TABLE}
+        export TF_VAR_votes_global_table=${VOTES_GLOBAL_TABLE}
+        export TF_VAR_displayed_videos_index_name=${DISPLAYED_VIDEOS_INDEX_NAME}
+    fi
+    if [ "$TF_FOLDER" = "frontend" ]; then
+        getFrontendOutputs
+
+        export TF_VAR_cloudfront_distribution_url=https://${CLOUDFRONT_DISTRIBUTION_DOMAIN//\"}
+    fi
+    if [ "$TF_FOLDER" = "okta" ]; then
+        getOktaOutputs
+    fi
+    if [ "$TF_FOLDER" = "backend" ]; then
+        getBackendOutputs
+
+        export VIDEOS_TABLE=${VIDEOS_TABLE}
+    fi
+
     if [ "$1" = "apply" ]; then
-
         terraformApply
-
-        if [ "$TF_FOLDER" = "cross-region-infra" ]; then
-            getCrossRegionInfraOutputs
-
-            export TF_VAR_videos_global_table=${VIDEOS_GLOBAL_TABLE}
-            export TF_VAR_votes_global_table=${VOTES_GLOBAL_TABLE}
-            export TF_VAR_displayed_videos_index_name=${DISPLAYED_VIDEOS_INDEX_NAME}
-        fi
-        if [ "$TF_FOLDER" = "frontend" ]; then
-            getFrontendOutputs
-
-            export TF_VAR_cloudfront_distribution_url=https://${CLOUDFRONT_DISTRIBUTION_DOMAIN//\"}
-        fi
-        if [ "$TF_FOLDER" = "okta" ]; then
-            getOktaOutputs
-        fi
-        if [ "$TF_FOLDER" = "backend" ]; then
-            getBackendOutputs
-        fi
     fi
 }
 

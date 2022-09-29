@@ -17,6 +17,7 @@ locals {
 
   dynamodb_displayed_videos_index_name = "displayedVideosIndex"
 
-  dynamodb_videos_resource_name   = "${local.verbose_service_name}-videos-global-${local.stack_name_postfix}"
-  dynamodb_votes_resource_name    = "${local.verbose_service_name}-votes-global-${local.stack_name_postfix}"
+  # The name has to always the same or the resources will be deleted when deploying on the secondary region
+  dynamodb_videos_resource_name   = "${local.service_name}-${var.env}-${local.primary_region}-videos-global-${local.stack_name_postfix}"
+  dynamodb_votes_resource_name    = "${local.service_name}-${var.env}-${local.primary_region}-votes-global-${local.stack_name_postfix}"
 }

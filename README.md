@@ -37,11 +37,20 @@ chmod +x ./scripts/deploy-state.sh
 ./scripts/deploy-state.sh apply
 ```
 
-2) Deploy the app (including OKTA):
+2) Deploy the app on the primary region (including OKTA):
 ```shell
 chmod +x ./scripts/deploy.sh
 ./scripts/deploy.sh apply
+# Enter the parameters. The second parameter (region) must be eu-central-1 (primary region)
 ```
+
+3) Deploy the app on the secondary region
+
+```shell
+./scripts/deploy.sh apply
+# Enter the parameters. The second parameter (region) must be us-east-1 (secondary region)
+```
+If you want to change the primary/secondary regions, search for `eu-central-1` and `us-east-1` in the whole project and replace all of them. 
 
 ### Architecture
 
