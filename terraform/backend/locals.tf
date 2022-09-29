@@ -9,13 +9,9 @@ locals {
   component_name = "api"
   api_uri_prefix = "api"
 
-  dynamodb_displayed_videos_index_name = "displayedVideosIndex"
-
   lambda_get_videos_resource_name = "${local.verbose_service_name}-get-videos-${local.stack_name_postfix}"
   lambda_post_votes_resource_name = "${local.verbose_service_name}-post-votes-${local.stack_name_postfix}"
   apigw_resource_name             = "${local.verbose_service_name}-api-${local.stack_name_postfix}"
-  dynamodb_videos_resource_name   = "${local.verbose_service_name}-videos-${local.stack_name_postfix}"
-  dynamodb_votes_resource_name    = "${local.verbose_service_name}-votes-${local.stack_name_postfix}"
 
   is_current_env_prod = (var.env == "prod") ? true : false
 

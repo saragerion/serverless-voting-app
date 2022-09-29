@@ -11,8 +11,8 @@ resource "aws_lambda_function" "get_videos" {
     variables = {
       ENVIRONMENT                 = var.env
       AWS_ACCOUNT_ID              = local.aws_account_id
-      TABLE_NAME_VIDEOS           = local.dynamodb_videos_resource_name,
-      DISPLAYED_VIDEOS_INDEX_NAME = local.dynamodb_displayed_videos_index_name,
+      TABLE_NAME_VIDEOS           = var.videos_global_table,
+      DISPLAYED_VIDEOS_INDEX_NAME = var.displayed_videos_index_name,
       // Powertools environment variables
       POWERTOOLS_SERVICE_NAME       = local.powertools_service_name
       POWERTOOLS_LOGGER_LOG_LEVEL   = local.powertools_logger_log_level
@@ -80,7 +80,7 @@ data "aws_iam_policy_document" "query_dynamodb" {
     ]
 
     resources = [
-      "arn:aws:dynamodb:${var.aws_region}:${local.aws_account_id}:table/${local.dynamodb_videos_resource_name}/index/${local.dynamodb_displayed_videos_index_name}",
+      "arn:aws:dynamodb:${var.aws_region}:${local.aws_account_id}:table/${var.videos_global_table}/index/${var.displayed_videos_index_name}",
     ]
 
     effect = "Allow"

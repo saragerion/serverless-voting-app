@@ -19,13 +19,13 @@ function main {
     setDeploymentConfig
     introComments "$@"
 
-    npm run build
     npm ci "--production"
+    npm run build
     mkdir -p dist/backend
     cd dist/backend
     zip -r lambda_functions.zip .  ../../package.json ../../node_modules
 
-    for TF_FOLDER in backend frontend okta
+    for TF_FOLDER in cross-region-infra backend frontend okta
     do
         cd "$ROOT_DIR/terraform/${TF_FOLDER}"
         terraformSteps "$@"
