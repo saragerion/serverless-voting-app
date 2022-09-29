@@ -16,7 +16,7 @@ function main {
     source "$ROOT_DIR/scripts/steps/common.sh"
     source "$ROOT_DIR/scripts/steps/terraform.sh"
 
-    for TF_FOLDER in frontend backend
+    for TF_FOLDER in okta frontend backend
     do
         cd "$ROOT_DIR/terraform/${TF_FOLDER}"
 
