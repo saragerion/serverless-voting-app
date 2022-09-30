@@ -6,7 +6,6 @@ resource "aws_dynamodb_table" "videos_primary" {
   # provider = "aws.${local.primary_region}"
   provider = aws.eu-central-1
 
-  count = local.is_primary ? 1 : 0
   name         = local.dynamodb_videos_resource_name
   stream_enabled   = true
   stream_view_type = "NEW_AND_OLD_IMAGES"
@@ -41,7 +40,6 @@ resource "aws_dynamodb_table" "videos_primary" {
 resource "aws_dynamodb_table" "videos_secondary" {
   provider = aws.us-east-1
 
-  count = local.is_primary ? 1 : 0
   name         = local.dynamodb_videos_resource_name
   stream_enabled   = true
   stream_view_type = "NEW_AND_OLD_IMAGES"
@@ -101,7 +99,6 @@ resource "aws_dynamodb_table" "votes_primary" {
   # provider = "aws.${local.primary_region}"
   provider = aws.eu-central-1
 
-  count = local.is_primary ? 1 : 0
   name         = local.dynamodb_votes_resource_name
   billing_mode = "PAY_PER_REQUEST"
   stream_enabled   = true
@@ -127,7 +124,6 @@ resource "aws_dynamodb_table" "votes_primary" {
 resource "aws_dynamodb_table" "votes_secondary" {
   provider = aws.us-east-1
 
-  count = local.is_primary ? 1 : 0
   name         = local.dynamodb_votes_resource_name
   stream_enabled   = true
   stream_view_type = "NEW_AND_OLD_IMAGES"

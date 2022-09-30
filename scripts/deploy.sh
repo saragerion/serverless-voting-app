@@ -19,7 +19,7 @@ function main {
     setDeploymentConfig
     introComments "$@"
 
-    npm ci "--production"
+    npm install "--include=dev"
     npm run build
     mkdir -p dist/backend
     cd dist/backend
@@ -40,7 +40,6 @@ function main {
         echo "Above you can see the planned changes. To apply those changes run './scripts/deploy.sh apply' "
     fi
 
-    npm install "--include=dev"
 }
 
 main "${*}"

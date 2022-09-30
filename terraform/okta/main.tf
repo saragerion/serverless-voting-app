@@ -9,6 +9,7 @@ resource "okta_app_oauth" "single_page_app" {
   label                      = local.okta_app_resource_name
   type                       = "browser"
   token_endpoint_auth_method = "none"
+  pkce_required              = true
   grant_types                = ["authorization_code", "refresh_token"]
   response_types             = ["code"]
   redirect_uris              = ["https://${local.cloudfront_distribution_alias}/callback"]
@@ -26,7 +27,7 @@ resource "okta_app_group_assignment" "everyone_group_assignment" {
 }
 
 resource "okta_trusted_origin" "website_origin" {
-  name   = local.okta_app_resource_name
+  name   = "${local.okta_app_resource_name}-${var.aws_region}"
   origin = "https://${local.cloudfront_distribution_alias}"
   scopes = ["REDIRECT"]
 }
