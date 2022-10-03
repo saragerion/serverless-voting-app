@@ -1,5 +1,5 @@
 import http from 'k6/http';
-import { check, group, sleep } from 'k6';
+import { check, sleep } from 'k6';
 import { Rate } from 'k6/metrics';
 
 // A custom metric to track failure rates
@@ -11,13 +11,13 @@ export const options = {
   // Test runs with the same name groups test runs together
   name: 'api-get-videos-test',
   stages: [
-    // Linearly ramp up from 1 to 50 VUs during first minute
+    // Linearly ramp up from 1 to 50 VUs during 10 seconds
     { target: 50, duration: '10s' },
-    // Linearly ramp up from 50 to 1000 VUs for 6 minutes
+    // Linearly ramp up from 50 to 100 VUs for 30 seconds
     { target: 100, duration: '30s' },
-    // Linearly ramp up from 50 to 1000 VUs for 6 minutes
-    { target: 200, duration: '5m' },
-    // Linearly ramp down from 10000 to 0 VUs for 1 minutes
+    // Linearly ramp up from 100 to 200 VUs for 9 minutes
+    { target: 200, duration: '9m' },
+    // Linearly ramp down from 200 to 0 VUs for 1 minutes
     { target: 0, duration: '1m' }
     // Total execution time will be ~10 minutes
   ],
